@@ -29,7 +29,7 @@ img {
     float: left;
 }
 
-.col {
+.column {
     float: left;
-    width: 33.33%;
+    width: 300px;
 }
