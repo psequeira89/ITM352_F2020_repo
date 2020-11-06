@@ -22,7 +22,7 @@ function add_quantity(POST, res){
     let product = POST.product_selection;
     let range = products[product].range;
     let model = products[product].model;
-cd 
+
     if (typeof POST['quantity_textbox'] != 'undefined') {
         let purchase_qty = POST['quantity_textbox'];
 

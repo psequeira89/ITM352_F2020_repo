@@ -12,7 +12,7 @@
         ${display_products()}
     </div>
 
-    <form id="quantity_form" name="quantity_form" method="POST" action="/add_cart">
+    <form id="quantity_form" name="quantity_form" method="POST" action="/process_form">
 
         <div id="product_div">
             <label for="product_selection">Select Product:</label>
@@ -29,26 +29,8 @@
 
 
 
-        <input type="submit" value="Add to Cart">
+        <input type="submit" value="Checkout">
     </form>
-
-    <div class="cart_pane">
-        <h3>Shopping Cart</h3>
-        <form id="checkout_form" name="checkout_form" method="POST" action="/process_form">
-
-            
-                <ul class="shopping_cart">
-                    <div class="cart_item">
-                        <h4>item name</h4>
-                        <span class="item_price"></span>
-                        <span class="item_extended_price"></span>
-                    </div>
-                </ul>
-            
-
-            <input type="submit" value="Checkout">
-        </form>
-    </div>
 
 
     <a href="/">Return to Home Page</a>
