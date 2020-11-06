@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Product Page Test</title>
+    <link rel="stylesheet" href="style.css">
+    <script defer src="app.js"></script>
+</head>
+<body>
+    <main>
+        <div class="hero-left">
+          <h1>Ryzen CPUs</h1>
+          <div class="layers">
+            <div class="layer layer-displayed" data-scene="1">
+              <span>R5 3600</span>
+              <div class="layer__image" style="background-image: url('./images/r5_3600.jpg')"></div>
+              <div class="layer__info">
+                <div>
+                  <strong>Range</strong>
+                  <strong>Model</strong>
+                  <strong>Price</strong>
+                  <strong>Width</strong>
+                  <strong>Flex</strong>
+                  <strong>Sidecut</strong>
+                </div>
+                <div>
+                  <span>123m</span>
+                  <span>TAPPERED SWALLONTAIL</span>
+                  <span>TRUE</span>
+                  <span>MID-WIDE</span>
+                  <span>ALL TERRAIN</span>
+                  <span>PROGRESSIVE</span>
+                </div>
+              </div>
+            </div>
+            <div class="layer" data-scene="2">
+              <span>THE POW</span>
+              <div class="layer__image" style="background-image: url('http://pngimg.com/uploads/snowboard/snowboard_PNG8006.png')"></div>
+              <div class="layer__info">
+                <div>
+                  <strong>Size</strong>
+                  <strong>Shape</strong>
+                  <strong>Camber</strong>
+                  <strong>Width</strong>
+                  <strong>Flex</strong>
+                  <strong>Sidecut</strong>
+                </div>
+                <div>
+                  <span>110m</span>
+                  <span>TWIN</span>
+                  <span>FALSE</span>
+                  <span>WIDE</span>
+                  <span>ALL TERRAIN</span>
+                  <span>PROGRESSIVE</span>
+                </div>
+              </div>
+            </div>
+            <div class="layer" data-scene="3">
+              <span>THE SPLASH</span>
+              <div class="layer__image" style="background-image: url('http://pngimg.com/uploads/snowboard/snowboard_PNG7998.png')"></div>
+              <div class="layer__info">
+                <div>
+                  <strong>Size</strong>
+                  <strong>Shape</strong>
+                  <strong>Camber</strong>
+                  <strong>Width</strong>
+                  <strong>Flex</strong>
+                  <strong>Sidecut</strong>
+                </div>
+                <div>
+                  <span>126m</span>
+                  <span>REVERSE CAMBER</span>
+                  <span>TRUE</span>
+                  <span>MID-WIDE</span>
+                  <span>ALL TERRAIN</span>
+                  <span>PROGRESSIVE</span>
+                </div>
+              </div>
+            </div>
+          </div>
+          <button onclick="switchLayer(2)"><</button>
+          <button onclick="switchLayer()">></button>
+        </div>
+        <div class="hero-right">
+          <div class="layer layer-displayed" data-scene="1"></div>
+          <div class="layer" data-scene="2"></div>
+          <div class="layer" data-scene="3"></div>
+          <div class="photo-frame">
+            <div class="layer layer-displayed" style="background-image: url('https://images.unsplash.com/photo-1495468286609-71018e87abc5?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=987c55a292efaa0adb9acfc26c06e22a&auto=format&fit=crop&w=670&q=80')" data-scene="1"></div>
+            <div class="layer" style="background-image: url('https://images.unsplash.com/photo-1536099876051-79f4cbffeed1?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=451b9215ee8acc20d5d7ea354aab570e&auto=format&fit=crop&w=1350&q=80')" data-scene="2"></div>
+            <div class="layer" style="background-image: url('https://images.unsplash.com/photo-1512821062947-6eda5253c3e2?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=305dedf0e09581de0ee68ab2c9523955&auto=format&fit=crop&w=1351&q=80')" data-scene="3"></div>
+            <div class="cover"></div>
+          </div>
+          <div class="photo-name">
+            <div class="photo-name__wrapper">
+              <div class="layer layer-displayed" data-scene="1">
+                <span class="photo-name__title">BRION FOX</span>
+                <span>RIDING THE CANNON</span>
+              </div>
+              <div class="layer" data-scene="2">
+                <span class="photo-name__title">AUSTIN SMITH</span>
+                <span>RIDING THE POW</span>
+              </div>
+              <div class="layer" data-scene="3 ">
+                <span class="photo-name__title">SALLY BLUE</span>
+                <span>RIDING THE SPLASH</span>
+              </div>
+            </div>
+          </div>
+          <div class="photo-frame">
+            <div class="layer layer-displayed" style="background-image: url('https://images.unsplash.com/photo-1486335223442-a034129506f6?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=564f090b8a99c189845f2ef71d4f620a&auto=format&fit=crop&w=1350&q=80')" data-scene="1"></div>
+            <div class="layer" style="background-image: url('https://images.unsplash.com/photo-1522056615691-da7b8106c665?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=4f51ed1121800f23da98176659ba7506&auto=format&fit=crop&w=1352&q=80')" data-scene="2"></div>
+            <div class="layer" style="background-image: url('https://images.unsplash.com/photo-1478700485868-972b69dc3fc4?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=918195bdc5a37a2f412cf49234183427&auto=format&fit=crop&w=1350&q=80')" data-scene="3"></div>
+            <div class="cover"></div>
+          </div>
+        </div>
+      </main>
+</body>
+</html>

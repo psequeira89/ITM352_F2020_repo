@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tic Tac Toe</title>
+</head>
+<body>
+    <table style="border: 1px solid black;border-collapse:collapse;">
+        <tbody>
+            <script>
+                var TicTacToe = ['x','o','x','o','x','o','x','o','o'];
+                var index = 0;
+                for (var i = 0; i < 3; i++){
+                    document.write(`<tr>`);
+                        for (var j = 0; j < 3; j++){
+                            document.write(`<th style="border: 1px solid black;">${TicTacToe[index]}</th>`);
+                            index++;
+                        }
+                    document.write(`</tr>`);
+                }
+            </script>
+        </tbody>
+    </table>
+</body>
+</html>

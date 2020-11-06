@@ -1,0 +1,2 @@
+<h2>Thank you for purchase!<h2>
+<h3>Quantity: ${purchase_qty}<br>Item: ${range} ${model}<br>Total: \$${purchase_qty * model_price}!</h3>

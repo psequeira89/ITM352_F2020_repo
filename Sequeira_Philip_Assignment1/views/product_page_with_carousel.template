@@ -1,0 +1,64 @@
+<script></script>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Product Page</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="app.js"></script>
+    <script defer src="load-carousel.js"></script>
+</head>
+<body>
+    <div id="carousel">
+        ${load_carousel()}
+    </div>
+
+    <div id="product_display">
+        ${display_products()}
+    </div>
+
+    <form id="quantity_form" name="quantity_form" method="POST" action="/add_cart">
+
+        <div id="product_div">
+            <label for="product_selection">Select Product:</label>
+            <select id="product_selection" name="product_selection" onchange="updateImage(this.selectedIndex)">
+                ${load_product_list()}
+            </select>
+        </div>
+
+        <div id="quantity_div">
+            <label for="quantity_textbox">Quantity Desired:</label>
+            <input type="text" id="quantity_textbox" name="quantity_textbox" onkeyup="checkQuantityTextbox();">
+            <span id='qty_textbox_message'>Enter a quantity</span>
+        </div>
+
+
+
+        <input type="submit" value="Add to Cart">
+    </form>
+
+    <div class="cart_pane">
+        <h3>Shopping Cart</h3>
+        <form id="checkout_form" name="checkout_form" method="POST" action="/process_form">
+
+            
+                <ul class="shopping_cart">
+                    <div class="cart_item">
+                        <h4>item name</h4>
+                        <span class="item_price"></span>
+                        <span class="item_extended_price"></span>
+                    </div>
+                </ul>
+            
+
+            <input type="submit" value="Checkout">
+        </form>
+    </div>
+
+
+    <a href="/">Return to Home Page</a>
+
+    <script>initializePage();</script>
+
+</body>
+</html>

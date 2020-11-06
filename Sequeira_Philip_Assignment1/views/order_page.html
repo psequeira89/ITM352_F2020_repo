@@ -1,0 +1,112 @@
+<script></script>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Order Page</title>
+    <link rel="stylesheet" href="style.css">
+    <script>
+        function resetErrorMsg(msg){
+            msg.innerHTML = "Enter a quantity";
+            msg.style.color = "black";
+        }
+
+        function checkQuantityTextbox(){
+            var msg = document.getElementById('qty_textbox_message');
+            resetErrorMsg(msg);
+            var input = quantity_form.quantity_textbox.value;
+            var errorLog = isStrNonNegInt(input, true);
+            
+            if (errorLog.length != 0 && input.length > 0){
+                msg.innerHTML = errorLog;
+                msg.style.color = "red";
+            }
+        }
+        
+        /*
+        Function Name:
+            isStrNonNegInt()
+
+        Description:
+            Takes a string and returns true if it is a non-negative integer, else false.
+            If the optional errlog parameter is true, will return array of any errors instead of false.
+
+        Params:
+            string str:
+                The string to check if is non negative integer
+
+            boolean errlog (optional):
+                If true, returns array of all errors if found
+                instead of boolean. Defaults to false.
+        */
+        function isStrNonNegInt(str, errlog = false){
+            var errors = []; // assume no errors at first
+            if(Number(str) != str) {
+                errors.push('Not a number!'); // Check if string is a number value
+                return errlog ? errors : (errors.length == 0);
+            }
+            if(str < 0) errors.push('Negative value!'); // Check if it is non-negative
+            if(parseInt(str) != str) errors.push('Not an integer!'); // Check that it is an integer
+            return errlog ? errors : (errors.length == 0);
+        }
+
+        //loads product selection drop down menu
+        function loadProducts(products){
+            for (i in products){
+                document.write(`<option value="${i}">${products[i].range} ${products[i].model}</option>`);
+            }
+        }
+
+        //resets all images to hidden
+        function resetSelection(){
+            for (i in products){
+                if (document.getElementById(`prod_${i}`).getAttribute("style") != "display:none"){
+                    document.getElementById(`prod_${i}`).setAttribute("style", "display:none");
+                }
+            }
+        }
+
+        function updateImage(selected_index){
+            resetSelection();
+            document.getElementById(`prod_${selected_index}`).setAttribute("style", "display:block")
+        }
+    </script>
+</head>
+<body>
+    <div id="product_display">
+        <script>
+            for (prod in products){
+                document.write(`<div id="prod_${prod}" style="display:none"><h3>${products[prod].range} ${products[prod].model} at \$${products[prod].price}</h3>
+                <img src="${products[prod].image}" alt="product image" width="100"></div>`);
+            }
+            
+        </script>
+    </div>
+
+    <form id="quantity_form" name="quantity_form" method="POST" action="/process_form">
+
+        <div id="product_div">
+            <label for="product_selection">Select Product:</label>
+            <select id="product_selection" name="product_selection" onchange="updateImage(this.selectedIndex)">
+                <script>
+                    loadProducts(products);
+                </script>
+            </select>
+        </div>
+
+        <div id="quantity_div">
+            <label for="quantity_textbox">Quantity Desired:</label>
+            <input type="text" id="quantity_textbox" name="quantity_textbox" onkeyup="checkQuantityTextbox();">
+            <span id='qty_textbox_message'>Enter a quantity</span>
+        </div>
+        
+        <input type="submit" value="Checkout">
+    </form>
+
+    <a href="index.html">Return to Home Page</a>
+    <script defer>
+        //initialize the image select to the first in the product list
+        document.getElementById('prod_0').setAttribute("style", "display:block")
+    </script>
+</body>
+</html>

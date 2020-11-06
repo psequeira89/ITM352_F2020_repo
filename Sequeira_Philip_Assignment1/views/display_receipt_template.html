@@ -1,0 +1,64 @@
+<script>
+    function setup(products){
+        //Compute Extended Prices
+        ext_prices = products.map(product => (
+            product.quantity * product.price
+        ));
+
+        //compute Subtotal
+        subtotal = ext_prices.reduce((acc, cv) => acc + cv);
+
+        //Compute Tax
+        tax = subtotal * sales_tax;
+
+        //Grand total
+        total = subtotal + tax;
+    }
+</script>
+
+<h2>Thank you for purchase!<h2>
+<h3>${purchase_qty} ${model}. Your total is \$${purchase_qty * model_price}!</h3>
+
+<table id="receipt_table">
+</table>
+
+<table border="2">
+    <tbody>
+        <tr>
+            <th style="text-align: center;" width="43%">Item</th>
+            <th style="text-align: center;" width="11%">quantity</th>
+            <th style="text-align: center;" width="13%">price</th>
+            <th style="text-align: center;" width="54%">extended price</th>
+        </tr>
+
+<script>
+    //product rows
+
+    for (i in products)
+    document.write(`
+    <tr>
+        <td width="43%">${product1.item}</td>
+        <td align="center" width="11%">${product1.quantity}</td>
+        <td width="13%">$${product1.price}</td>
+        <td width="54%">$${extended_price1}</td>
+    </tr>
+    `);
+</script>
+
+    <tr>
+        <td colspan="4" width="100%">&nbsp;</td>
+    </tr>
+    <tr>
+        <td style="text-align: center;" colspan="3" width="67%">Sub-total</td>
+        <td width="54%">$<script>document.write(subtotal);</script></td>
+    </tr>
+    <tr>
+        <td style="text-align: center;" colspan="3" width="67%"><span style="font-family: arial;">Tax @ 5.75%</span></td>
+        <td width="54%">$<script>document.write(tax.toFixed(2));</script></td>
+    </tr>
+    <tr>
+        <td style="text-align: center;" colspan="3" width="67%"><strong>Total</strong></td>
+        <td width="54%"><strong>$<script>document.write(total.toFixed(2));</script></strong></td>
+    </tr>
+    </tbody>
+</table>

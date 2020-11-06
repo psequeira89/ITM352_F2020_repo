@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Order Pages</title>
+    <script>
+
+        let params = (new URL(document.location)).searchParams;
+        GET = {};
+        params.forEach(function (value, key) { GET[key] = value });
+        var purchase_qty = GET['quantity_textbox'];
+
+        if (typeof GET['quantity_textbox'] != 'undefined'){
+            if (isStrNonNegInt(purchase_qty)){
+                document.write(`Thank you for ordering: ${purchase_qty}`);
+                window.stop();  
+            }
+            
+        }
+        else purchase_qty = "";
+
+        function resetErrorMsg(msg){
+            msg.innerHTML = "Enter a quantity";
+            msg.style.color = "black";
+        }
+
+        function checkQuantityTextbox(){
+            var msg = document.getElementById('qty_textbox_message');
+            resetErrorMsg(msg);
+            var input = quantity_form.quantity_textbox.value;
+            var errorLog = isStrNonNegInt(input, true);
+            
+            if (errorLog.length != 0 && input.length > 0){
+                msg.innerHTML = errorLog;
+                msg.style.color = "red";
+            }
+        }
+        /*
+        Function Name:
+            isStrNonNegInt()
+
+        Description:
+            Takes a string and returns true if it is a non-negative integer, else false.
+            If the optional errlog parameter is true, will return array of any errors instead of false.
+
+        Params:
+            string str:
+                The string to check if is non negative integer
+
+            boolean errlog (optional):
+                If true, returns array of all errors if found
+                instead of boolean. Defaults to false.
+        */
+        function isStrNonNegInt(str, errlog = false){
+            var errors = []; // assume no errors at first
+            if(Number(str) != str) {
+                errors.push('Not a number!'); // Check if string is a number value
+                return errlog ? errors : (errors.length == 0);
+            }
+            if(str < 0) errors.push('Negative value!'); // Check if it is non-negative
+            if(parseInt(str) != str) errors.push('Not an integer!'); // Check that it is an integer
+            return errlog ? errors : (errors.length == 0);
+        }
+
+        // function displayPurchase(purchase_qty){
+        //     if (isStrNonNegInt(purchase_qty)){
+        //         document.write(`Thank you for ordering: ${purchase_qty}`);
+        //     }
+        //     else {
+        //         var msg = document.getElementById('qty_textbox_message');
+        //         msg.style.color = "red";
+        //         window.stop();
+        //     }
+        // }
+
+        
+
+    </script>
+</head>
+<body>
+    <form id="quantity_form" name="quantity_form" method="GET" action="">
+        <label for="quantity_textbox">Quantity Desired:</label>
+        <input type="text" id="quantity_textbox" name="quantity_textbox" onkeyup="checkQuantityTextbox();">
+        <span id='qty_textbox_message'>Enter a quantity</span>
+        <br>
+        <input type="submit" value="Purchase">
+    </form>
+<script>
+    document.getElementById('quantity_textbox').value = purchase_qty;
+</script>
+</body>
+</html>

@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lab10 - Experimental</title>
+    <link rel="stylesheet" href="experiment.css">
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script defer src="experiment.js"></script>
+</head>
+<body>
+    <table id="table"></table>
+    <form id="entry_form" method="GET" action="http://localhost:5000/">
+        <div>
+            <h3>Add new items:</h3>
+        </div>
+        
+        <div id="getItem">
+            <div class="label">
+                <label for="name">Item</label>
+            </div>
+            <div>
+                <input name="name" id="name" type="text" placeholder="Ex. Apples">
+            </div>
+        </div>
+
+        <div id="getQuant">
+            <div class="label">
+                <label for="quant">Quantity</label>
+            </div>
+            <div>
+                <input name="quant" id="quant" type="number" min="1" step="1" value="1">
+            </div>
+        </div>
+
+        <div id="getPrice">
+            <div class="label">
+                <label for="price">Price</label>
+            </div>
+            <div>
+                <input name="price" id="price" type="text" placeholder="$0.00">
+            </div>
+        </div>
+
+        <div>
+            <input type="submit" value="Submit New Item">
+        </div>
+    </form>
+
+    <form id="options" method="GET" action="http://localhost:5000/">
+        <div>
+            <label for="clear" id="clear">Clear List</label>
+        </div>
+        <div>
+            <input type="submit" name="clear" value="Clear">
+        </div>
+    </form>
+</body>
+</html>

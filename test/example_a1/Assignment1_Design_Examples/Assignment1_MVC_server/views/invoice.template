@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+
+  <link href="products-style.css" rel="stylesheet">
+
+</head>
+
+<body>
+  <table border="2">
+    <tbody>
+      <tr>
+        <th style="text-align: center;" width="43%">Item</th>
+        <th style="text-align: center;" width="11%">quantity</th>
+        <th style="text-align: center;" width="13%">price</th>
+        <th style="text-align: center;" width="54%">extended price</th>
+      </tr>
+        ${display_invoice_table_rows()}
+      <tr>
+        <td colspan="4" width="100%">&nbsp;</td>
+      </tr>
+      <tr>
+        <td style="text-align: center;" colspan="3" width="67%">Sub-total</td>
+        <td width="54%">$
+          ${subtotal}
+        </td>
+      </tr>
+      <tr>
+        <td style="text-align: center;" colspan="3" width="67%"><span style="font-family: arial;">Tax @
+            ${(100 * tax_rate)}%</span></td>
+        <td width="54%">\$${tax.toFixed(2)}</td>
+      </tr>
+      <tr>
+        <td style="text-align: center;" colspan="3" width="67%">Shipping</span></td>
+        <td width="54%">\$${shipping.toFixed(2)}</td>
+      </tr>
+      <tr>
+        <td style="text-align: center;" colspan="3" width="67%"><strong>Total</strong></td>
+        <td width="54%"><strong>\$${total.toFixed(2)}</strong></td>
+      </tr>
+    </tbody>
+  </table>
+  <div>
+    <br><b>
+      OUR SHIPPING POLICY IS:A subtotal $0 - $49.99 will be $2 shipping
+      A subtotal $50 - $99.99 will be $5 shipping
+      Subtotals over $100 will be charged 5% of the subtotal amount
+    </b> </div>
+</body>
+
+</html>

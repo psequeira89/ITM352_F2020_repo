@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Order Page</title>
+    <script src="./product_data.js"></script>
+    <script>
+        function resetErrorMsg(msg){
+            msg.innerHTML = "Enter a quantity";
+            msg.style.color = "black";
+        }
+        
+        function checkQuantityTextbox(theTextbox) {
+            errs = isNonNegInt(theTextbox.value, true);
+            document.getElementById(theTextbox.name + '_message').innerHTML = errs.join(", ");
+        }
+
+        
+        /*
+        Function Name:
+            isStrNonNegInt()
+
+        Description:
+            Takes a string and returns true if it is a non-negative integer, else false.
+            If the optional errlog parameter is true, will return array of any errors instead of false.
+
+        Params:
+            string str:
+                The string to check if is non negative integer
+
+            boolean errlog (optional):
+                If true, returns array of all errors if found
+                instead of boolean. Defaults to false.
+        */
+        function isStrNonNegInt(str, errlog = false){
+            var errors = []; // assume no errors at first
+            if(Number(str) != str) {
+                errors.push('Not a number!'); // Check if string is a number value
+                return errlog ? errors : (errors.length == 0);
+            }
+            if(str < 0) errors.push('Negative value!'); // Check if it is non-negative
+            if(parseInt(str) != str) errors.push('Not an integer!'); // Check that it is an integer
+            return errlog ? errors : (errors.length == 0);
+        }
+    </script>
+</head>
+<body>
+    <form name='quantity_form' action="http://localhost:8080/process_form" method="POST">
+        <script>
+            for (i in products) {
+                document.write(`<h3>${products[i]["model"]} at \$${products[i]["price"]}</h3>`);
+                document.write(`
+                    <label for="quantity_textbox">quantity desired:</label>
+                    <input type="text" name="quantity_textbox${i}" onkeyup="checkQuantityTextbox(this);">
+                    <span id="quantity_textbox${i}_message">Enter a quantity</span>
+                    `);
+            }
+        </script>
+        <br>
+        <input type="submit" value='Purchase' name="purchase_submit_button">
+    </form>
+</body>
+</html>

@@ -1,0 +1,53 @@
+<script></script>
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>Smart Phone Store</title>
+
+    <link href="https://fonts.googleapis.com/css?family=Cherry+Swash|Raleway" rel="stylesheet">
+
+    <link href="products-style.css" rel="stylesheet">
+
+    <script>
+    function isNonNegInt(q, return_errors = false) {
+        errors = []; // assume no errors at first
+        if(q == '') q =0; // handle blank inputs as if they are 0
+        if (Number(q) != q) errors.push('<font color="red">Not a number!</font>'); // Check if string is a number value
+        else if (q < 0) errors.push('<font color="red">Negative value!</font>'); // Check if it is non-negative
+        else if (parseInt(q) != q) errors.push('<font color="red">Not an integer!</font>'); // Check that it is an integer
+        return return_errors ? errors : (errors.length == 0);
+    }
+
+    function checkQuantityTextbox(theTextbox) {
+        errs = isNonNegInt(theTextbox.value, true);
+        if (errs.length == 0) errs = ['You want:'];
+        if (theTextbox.value.trim() == '') errs = ['Quantity'];
+        document.getElementById(theTextbox.name + '_label').innerHTML = errs.join(", ");
+    }
+    </script>
+</head>
+
+<body>
+    <form name="product_selection_form" action="/process_invoice" method="POST">
+        <header>
+            <h1>Port's Used Smart Phone Store</h1>
+        </header>
+        <div>
+            <main>
+                ${display_products()}
+            </main>
+        </div>
+        <footer>
+            <h1>
+                Your One Stop For Used Phones
+            </h1>
+            <input type="submit" value="Purchase!" name="purchase_submit">
+        </footer>
+    </form>
+</body>
+
+</body>
+
+</html>

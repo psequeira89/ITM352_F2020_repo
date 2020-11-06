@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lab10 - Experimental</title>
+    <link rel="stylesheet" href="experiment.css">
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+</head>
+<body>
+    <form id="entry_form" method="GET" action="http://localhost:5000/">
+        <div>
+            <h3>Add new items:</h3>
+        </div>
+        <div>
+            <label for="name">Item</label>
+            <input name="name" id="name" type="text">
+        </div>
+        <div>
+            <label for="quant">Quantity</label>
+            <input name="quant" id="quant" type="text">
+        </div>
+        <div>
+            <label for="price">Price</label>
+            <input name="price" id="price" type="text">
+        </div>
+        <div>
+            <input type="submit" value="Submit New Item">
+        </div>
+    </form>
+    <form>
+        <input type="button" value="View Product List" onclick="window.location.href='experiment.html'">
+    </form>
+</body>
+</html>
