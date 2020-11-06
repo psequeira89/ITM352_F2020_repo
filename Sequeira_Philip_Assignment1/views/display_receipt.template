@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Receipt</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <header>
+        <h1>Thank you for purchase!</h1>
+    </header>
+    <main>
+        <table border="2">
+            <tbody>
+
+                <!-- table heading -->
+                <tr>
+                    <th style="text-align: center;" width="43%">Item</th>
+                    <th style="text-align: center;" width="11%">Quantity</th>
+                    <th style="text-align: center;" width="13%">Price</th>
+                    <th style="text-align: center;" width="54%">Extended Price</th>
+                </tr>
+
+                <!-- product rows -->
+                ${display_invoice_table_rows()}
+
+                <!-- blank row -->
+                <tr>
+                    <td colspan="4" width="100%">&nbsp;</td>
+                </tr>
+
+                <!-- subtotal -->
+                <tr>
+                    <td style="text-align: center;" colspan="3" width="67%">Sub-total</td>
+                    <td width="54%">$
+                        ${subtotal}
+                    </td>
+                </tr>
+
+                <!-- tax -->
+                <tr>
+                    <td style="text-align: center;" colspan="3" width="67%">Tax @
+                            ${(100 * tax_rate)}%</td>
+                    <td width="54%">\$${tax.toFixed(2)}</td>
+                </tr>
+
+                <!-- shipping fee -->
+                <tr>
+                    <td style="text-align: center;" colspan="3" width="67%">Shipping</td>
+                    <td width="54%">\$${shipping.toFixed(2)}</td>
+                </tr>
+
+                <!-- total -->
+                <tr>
+                    <td style="text-align: center;" colspan="3" width="67%"><strong>Total</strong></td>
+                    <td width="54%"><strong>\$${total.toFixed(2)}</strong></td>
+                </tr>
+            </tbody>
+        </table>
+    </main>
+    <footer>
+        <div class="disclaimer">
+            ABOUT SHIPPING:
+            ${load_shipping_statement()}
+        </div>
+
+        <!-- link to home page -->
+        <a href="/">Return to Home Page</a><br>
+        <!-- link to order page -->
+        <a href="./products">Take me back to the goods!</a>
+    </footer>
+</body>
+
+</html>

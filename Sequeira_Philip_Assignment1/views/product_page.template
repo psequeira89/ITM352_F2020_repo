@@ -1,41 +1,28 @@
-<script></script>
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <title>Product Page</title>
-    <link rel="stylesheet" href="style.css">
     <script src="app.js"></script>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <div id="product_display">
-        ${display_products()}
-    </div>
+    <header>
+        <h1>Ryzen CPUs</h1>
+    </header>
+    <main>
+        <form id="quantity_form" name="quantity_form" method="POST" action="/process_form">
 
-    <form id="quantity_form" name="quantity_form" method="POST" action="/process_form">
-
-        <div id="product_div">
-            <label for="product_selection">Select Product:</label>
-            <select id="product_selection" name="product_selection" onchange="updateImage(this.selectedIndex)">
+            <!-- loads in the product selection -->
+            <div id="product_div">
                 ${load_product_list()}
-            </select>
-        </div>
+            </div>
 
-        <div id="quantity_div">
-            <label for="quantity_textbox">Quantity Desired:</label>
-            <input type="text" id="quantity_textbox" name="quantity_textbox" onkeyup="checkQuantityTextbox();">
-            <span id='qty_textbox_message'>Enter a quantity</span>
-        </div>
-
-
-
-        <input type="submit" value="Checkout">
-    </form>
-
-
-    <a href="/">Return to Home Page</a>
-
-    <script>initializePage();</script>
-
+            <input type="submit" name="checkout" value="Checkout">
+        </form>
+    </main>
+    <footer>
+        <a href="/">Return to Home Page</a>
+    </footer>
 </body>
 </html>

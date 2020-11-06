@@ -1,11 +1,10 @@
 //warns user if input is not valid in the textbox
-function checkQuantityTextbox(){
-    var msg = document.getElementById('qty_textbox_message');
+function checkQuantityTextbox(text_input, product){
+    var msg = document.getElementById(`qty_textbox_message_${product}`);
     resetErrorMsg(msg);
-    var input = document.getElementById('quantity_textbox').value;
-    var errorLog = isStrNonNegInt(input, true);
+    var errorLog = isStrNonNegInt(text_input, true);
     
-    if (errorLog.length != 0 && input.length > 0){
+    if (errorLog.length != 0 && text_input.length > 0){
         msg.innerHTML = errorLog;
         msg.style.color = "red";
     }
@@ -23,38 +22,8 @@ function isStrNonNegInt(str, errlog = false){
     return errlog ? errors : (errors.length == 0);
 }
 
-//resets all images to hidden
-function resetSelection(){
-    let i = 0;
-    while (document.getElementById(`prod_${i}`) != null){
-        if (document.getElementById(`prod_${i}`).getAttribute("style") != "display:none"){
-            document.getElementById(`prod_${i}`).setAttribute("style", "display:none");
-        }
-        i++;
-    }
-}
-
-//shows the currently selected item image
-function updateImage(selected_index){
-    resetSelection();
-    document.getElementById(`prod_${selected_index}`).setAttribute("style", "display:block");
-}
-
 //resets error message after user deletes all text
 function resetErrorMsg(msg){
-    msg.innerHTML = "Enter a quantity";
+    msg.innerHTML = "Quantity Desired:";
     msg.style.color = "black";
 }
-
-//sets the first image and product to show after loading
-function initializePage(){
-    document.getElementById('prod_0').setAttribute("style", "display:block");
-    document.getElementById('product_0').setAttribute("selected", true);
-}
-
-function addToCart(range, model, price, qty){
-    ext_price = price * qty;
-    cart.push({'range':`${range}`, 'model': `${model}`, 'price': `${price}`, 'ext_price': `${ext_price}`});
-}
-
-var cart = [];
