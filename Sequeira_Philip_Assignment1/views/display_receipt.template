@@ -12,6 +12,8 @@
         <h1>Thank you for purchase!</h1>
     </header>
     <main>
+
+        <!-- table borrowed from example -->
         <table border="2">
             <tbody>
 

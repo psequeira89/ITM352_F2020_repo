@@ -62,6 +62,7 @@ function calculate_tax(tr, subtotal){
 
 
 //process the checkout and return receipt page
+//borrowed from example
 function process_quantity_form(POST, res) {
     let contents = fs.readFileSync('./views/display_receipt.template', 'utf8');
     res.send(eval('`' + contents + '`')); // render template string
