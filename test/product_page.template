@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Product Page</title>
+    <script src="app.js"></script>
+    <link rel="stylesheet" href="styles/product_style.css">
+</head>
+<body>
+    <header>
+        <h1>Ryzen CPUs</h1>
+    </header>
+    <main>
+        <form id="quantity_form" name="quantity_form" method="POST" action="/process_form">
+
+            <!-- loads in the product selection -->
+            <div id="product_div">
+                ${load_product_list()}
+            </div>
+
+            <input type="submit" name="checkout" value="Checkout">
+        </form>
+    </main>
+    <footer>
+        <a href="/">Return to Home Page</a>
+    </footer>
+</body>
+</html>

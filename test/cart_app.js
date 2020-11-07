@@ -126,3 +126,61 @@ function add_quantity(POST, res){
     return str;
 }
 });
+
+//for server
+// //loads product selection and quantity forms for e
+// function load_product_list() {
+//     console.log("loading product list");
+//     str = '';
+//     for (product in products) {
+
+//         str += `
+//             <section id="product_${product}">
+//                 <div class="product_name"><h2>${products[product].range} ${products[product].model}</h2></div>
+//                 <div class="product_price"><h3>$${products[product].price}</h3></div>
+//                 <div class="product_image"><img src="images/${products[product].image}" alt="image of ${products[product].range} ${products[product].model}" width="100px"></div>
+
+//                 <label for="quantity_textbox"><span id='qty_textbox_message_${product}'>Quantity Desired:</span></label>
+//                 <input type="text" id="quantity_textbox" placeholder="0" name="quantity_textbox_${product}" onkeyup="checkQuantityTextbox(this.value, ${product});">
+                
+//             </section>
+//         `;
+//     }
+//     return str;
+// }
+
+// //loads product selection and quantity forms
+// function load_product_list() {
+//     console.log("loading product list");
+//     str = '';
+//     let i = 0;
+
+//     while (i < products.length) {
+
+//         //add start div
+//         str += `<div class="w3-col l3 s6">`;
+
+//         //group by twos for layout
+//         for (let j = 0; j < 2; j++){
+//             str += `
+//                 <div class="w3-container">
+//                     <img src="images/${products[i].image}" style="width:100%">
+//                     <p>${products[i].range} ${products[i].model}<br><b>$${products[i].price}</b></p>
+//                 </div>
+//             `
+//             if (j < 1 && i + 1 < products.length){
+//                 i++;
+//             }
+
+//             else {
+//                 break;
+//             }
+//         }
+
+//         //add end div
+//         str +=`</div>`
+
+//         i++
+//     }
+//     return str;
+// }

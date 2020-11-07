@@ -1,28 +1,149 @@
+<!-- w3 Schools template used
+from: https://www.w3schools.com/w3css/tryit.asp?filename=tryw3css_templates_food_blog&stacked=h -->
+
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Product Page</title>
-    <script src="app.js"></script>
-    <link rel="stylesheet" href="style.css">
-</head>
+<html>
+<title>Product Page</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Karma">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<link rel="stylesheet" href="styles/style.css">
+<script src="app.js"></script>
+
 <body>
-    <header>
-        <h1>Ryzen CPUs</h1>
+
+    <!-- Sidebar (hidden by default) -->
+    <nav class="w3-sidebar w3-bar-block w3-card w3-top w3-xlarge w3-animate-left"
+        style="display:none;z-index:2;width:40%;min-width:300px" id="mySidebar">
+        <a href="javascript:void(0)" onclick="w3_close()" class="w3-bar-item w3-button fa fa-close"></a>
+        <a href="#cpus" onclick="w3_close()" class="w3-bar-item w3-button"> Shop CPUs</a>
+        <a href="#shipping" onclick="w3_close()" class="w3-bar-item w3-button fa fa-truck"> Shipping Policy</a>
+        <a href="/" onclick="w3_close()" class="w3-bar-item w3-button fa fa-home"> Return to Main Page</a>
+    </nav>
+
+    <!-- Top menu -->
+    <div class="w3-top">
+        <div class="w3-white w3-xlarge" style="max-width:1200px;margin:auto">
+            <div class="w3-button w3-padding-16 w3-left" onclick="w3_open()">☰</div>
+            <div class="w3-center w3-padding-16">CPU City Store</div>
+        </div>
+    </div>
+
+    <header class="w3-center w3-content" style="max-width:1500px">
+        <div class="w3-center w3-content w3-display-container">
+            <img class="mySlides w3-image" src="images/logo.jpg" style="width:100%; height:900px;max-width: 1000px">
+            <img class="mySlides" src="https://www.routerloginsupport.com/wp-content/uploads/2018/04/rayzen.jpg"
+                style="width:100%;max-width: 1000px">
+            <button class="w3-button w3-black w3-display-left w3-padding-64" onclick="plusDivs(-1)">&#10094;</button>
+            <button class="w3-button w3-black w3-display-right w3-padding-64" onclick="plusDivs(1)">&#10095;</button>
+        </div>
     </header>
-    <main>
+
+    <hr>
+
+    <!-- Order Form -->
+    <div class="w3-main w3-content w3-padding " id="cpus" style="max-width:1200px;margin-top:100px">
         <form id="quantity_form" name="quantity_form" method="POST" action="/process_form">
 
-            <!-- loads in the product selection -->
-            <div id="product_div">
-                ${load_product_list()}
+            <!-- Product Grids-->
+            ${load_product_list()}
+
+            <!-- <div style="margin:0 0 20em 0"><p>hello</p></div> -->
+
+            <!-- Submit -->
+            <div class="w3-container w3-animate-top">
+                <input type="submit" name="checkout" value="Checkout" class="w3-bar-item w3-red w3-button w3-block"
+                    style="padding: 1.5em; margin:3em 1.5em 10em 1.5em">
+            </div>
+        </form>
+
+        <hr>
+
+        <!-- Footer -->
+        <footer class="w3-row-padding w3-padding-32">
+            <div class="w3-third">
+                <h3 id="shipping">SHIPPING POLICY</h3>
+                ${load_shipping_statement()}
+                <p>Powered by <a href="https://www.w3schools.com/w3css/default.asp" target="_blank">w3.css</a></p>
             </div>
 
-            <input type="submit" name="checkout" value="Checkout">
-        </form>
-    </main>
-    <footer>
-        <a href="/">Return to Home Page</a>
-    </footer>
+            <div class="w3-third">
+                <h3>BLOG POSTS</h3>
+                <ul class="w3-ul w3-hoverable">
+                    <li class="w3-padding-16">
+                        <a href="https://psequeira89.github.io/essays/Introduction.html" target="_blank">
+                            <img src="https://icdn2.digitaltrends.com/image/amd-ryzen-7-1700-cpu-inhand1-2-1500x1000.jpg"
+                                class="w3-left w3-margin-right" style="width:50px">
+                            <span class="w3-large">Introduction</span><br>
+                            <span>The man behind the city</span>
+                        </a>
+                    </li>
+                    <li class="w3-padding-16">
+                        <a href="https://psequeira89.github.io/essays/E1_ui_basics.html" target="_blank">
+                            <img src="https://www.routerloginsupport.com/wp-content/uploads/2018/04/rayzen.jpg"
+                                class="w3-left w3-margin-right" style="width:50px">
+                            <span class="w3-large">UI Technical Essay</span><br>
+                            <span>The early days</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="w3-third w3-serif">
+                <h3>POPULAR TAGS</h3>
+                <p>
+                    <span class="w3-tag w3-black w3-margin-bottom">CPU</span> <span
+                        class="w3-tag w3-dark-grey w3-small w3-margin-bottom">AMD</span> <span
+                        class="w3-tag w3-dark-grey w3-small w3-margin-bottom">Ryzen</span>
+                    <span class="w3-tag w3-dark-grey w3-small w3-margin-bottom">Intel</span> <span
+                        class="w3-tag w3-dark-grey w3-small w3-margin-bottom">Computer</span> <span
+                        class="w3-tag w3-dark-grey w3-small w3-margin-bottom">PC</span>
+                    <span class="w3-tag w3-dark-grey w3-small w3-margin-bottom">Electronics</span> <span
+                        class="w3-tag w3-dark-grey w3-small w3-margin-bottom">Do-it-yourself</span> <span
+                        class="w3-tag w3-dark-grey w3-small w3-margin-bottom">Buy</span>
+                    <span class="w3-tag w3-dark-grey w3-small w3-margin-bottom">Shop</span> <span
+                        class="w3-tag w3-dark-grey w3-small w3-margin-bottom">CPU City</span> <span
+                        class="w3-tag w3-dark-grey w3-small w3-margin-bottom">New</span>
+                    <span class="w3-tag w3-dark-grey w3-small w3-margin-bottom">Fast</span> <span
+                        class="w3-tag w3-dark-grey w3-small w3-margin-bottom">Best</span>
+                </p>
+            </div>
+        </footer>
+
+        <!-- End page content -->
+    </div>
+
+    <script>
+        // Script to open and close sidebar
+        function w3_open() {
+            document.getElementById("mySidebar").style.display = "block";
+        }
+
+        function w3_close() {
+            document.getElementById("mySidebar").style.display = "none";
+        }
+
+        var slideIndex = 1;
+        showDivs(slideIndex);
+
+        function plusDivs(n) {
+            showDivs(slideIndex += n);
+        }
+
+        function showDivs(n) {
+            var i;
+            var x = document.getElementsByClassName("mySlides");
+            if (n > x.length) { slideIndex = 1 }
+            if (n < 1) { slideIndex = x.length }
+            for (i = 0; i < x.length; i++) {
+                x[i].style.display = "none";
+            }
+            x[slideIndex - 1].style.display = "block";
+        }
+    </script>
+
 </body>
+
 </html>

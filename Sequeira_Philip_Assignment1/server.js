@@ -8,26 +8,57 @@ const PORT = 8080;
 app.use(myParser.urlencoded({ extended: true }));
 
 //checks if input is non-negative integer
+//returns a string message in the first element of an array if error found
 function isStrNonNegInt(str, errlog = false) {
     let errors = []; // assume no errors at first
+    errors.push('Please enter'); //the first item in the array is the message prefix
+
+    // Check if string is a number value
     if (Number(str) != str) {
-        errors.push('Not a number!'); // Check if string is a number value
-        return errlog ? errors : (errors.length == 0);
+        errors.push(' a number!');
+        errors = [errors.join('')];
+        return errlog ? errors : false;
     }
-    if (str < 0) errors.push('Negative value!'); // Check if it is non-negative
-    if (parseInt(str) != str) errors.push('Not an integer!'); // Check that it is an integer
+
+    // Check if it is non-negative
+    if (str < 0) {
+        errors.push(' a positive');
+    }
+
+    // Check that it is an integer
+    if (parseInt(str) != str) {
+        //check if error array contains an error already
+        if (errors[1] == ' a positive' && errors.length > 1) {
+            errors.push(', ');
+        }
+        else {
+            errors.push(' an ');
+        }
+        errors.push('integer');
+    }
+
+    //add suffix to complete message
+    errors.push(' number!');
+
+    //return errors as the first index of errors.length
+    if (errors.length == 2) {
+        errors = [];
+    }
+    else {
+        errors = [errors.join('')];
+    }
     return errlog ? errors : (errors.length == 0);
 }
 
 //prints easily editable statement about shipping policy
-function load_shipping_statement(){
+function load_shipping_statement() {
     str = `
         <br>
         Shipping fees are charged by order subtotal:
         <ul>
-            <li>$0 - $49.99: $2 shipping</li>
-            <li>$50 - $99.99: $5 shipping</li>
-            <li>$100 and greater: 5% of subtotal</li>
+            <li>$0 - $299.99: $2 shipping</li>
+            <li>$300 - $499.99: $5 shipping</li>
+            <li>$500 and greater: 1% of subtotal</li>
         </ul>
         <br>
     `;
@@ -36,26 +67,26 @@ function load_shipping_statement(){
 }
 
 //calculates shipping fee based on subtotal
-function calculate_shipping(subtotal){
+function calculate_shipping(subtotal) {
 
-    //$0 - $49.99: $2 shipping
-    if (subtotal <= 50) {
+    //$0 - $299.99: $2 shipping
+    if (subtotal < 300) {
         return shipping = 2;
     }
 
-    //$50 - $99.99: $5 shipping
-    else if (subtotal <= 100) {
+    //$300 - $499.99: $5 shipping
+    else if (subtotal < 500) {
         return shipping = 5;
     }
 
-    //$100 and greater: 5% of subtotal
+    //$100 and greater: 1% of subtotal
     else {
-        return shipping = 0.05 * subtotal;
+        return shipping = 0.01 * subtotal;
     }
 }
 
 //calculates taxes due
-function calculate_tax(tr, subtotal){
+function calculate_tax(tr, subtotal) {
     return tr * subtotal;
 }
 
@@ -99,7 +130,7 @@ function process_quantity_form(POST, res) {
         // Compute tax
         tax_rate = 0.0575;
         tax = calculate_tax(tax_rate, subtotal);
-        
+
         // Compute shipping
         shipping = calculate_shipping(subtotal);
 
@@ -110,25 +141,67 @@ function process_quantity_form(POST, res) {
     }
 }
 
-//loads product selection and quantity forms for e
+//loads product selection and quantity forms
 function load_product_list() {
     console.log("loading product list");
     str = '';
-    for (product in products) {
+    let i = 0;
 
-        str += `
-            <section id="product_${product}">
-                <div class="product_name"><h2>${products[product].range} ${products[product].model}</h2></div>
-                <div class="product_price"><h3>$${products[product].price}</h3></div>
-                <div class="product_image"><img src="images/${products[product].image}" alt="image of ${products[product].range} ${products[product].model}" width="100px"></div>
+    while (i < products.length) {
 
-                <label for="quantity_textbox"><span id='qty_textbox_message_${product}'>Quantity Desired:</span></label>
-                <input type="text" id="quantity_textbox" placeholder="0" name="quantity_textbox_${product}" onkeyup="checkQuantityTextbox(this.value, ${product});">
-                
-            </section>
-        `;
+        //add start div
+        str += `<div class="w3-row-padding w3-padding-16 w3-center">`;
+
+        //group by twos for layout
+        for (let j = 0; j < 4; j++) {
+            str += `
+                <section id="product_${i}" class="w3-animate-top">
+                    <div class="w3-quarter">
+                        <img src="images/${products[i].image}" alt="product image" style="width:100%;max-width:250px" class="w3-opacity-min w3-hover-opacity-off w3-image">
+                        <h3>${products[i].range} ${products[i].model}</h3>
+                        <p>$${products[i].price}</p>
+
+                        <label for="quantity_textbox"><span id='qty_textbox_message_${i}'>Quantity Desired:</span></label>
+                        <input type="text" id="quantity_textbox" placeholder="0" name="quantity_textbox_${i}" onkeyup="checkQuantityTextbox(this.value, ${i});">
+                    </div>
+                </section>
+            `
+            if (j < 3 && i + 1 < products.length) {
+                i++;
+            }
+
+            else {
+                break;
+            }
+        }
+
+        //add end div
+        str += `</div>`
+
+        i++
     }
     return str;
+}
+
+
+//shows error page when there is an error in the quantity entry
+function process_error(res, errors) {
+    let contents = fs.readFileSync('./views/error_page.template', 'utf8');
+    res.send(eval('`' + contents + '`')); // render template string
+
+    function report_error() {
+
+        console.log("num errors: " + errors.length)
+        str = '';
+
+        for (error in errors) {
+            str += `
+                <h2 style="color:red;">${errors[error]}</h2>
+            `;
+        }
+
+        return str;
+    }
 }
 
 
@@ -142,24 +215,53 @@ app.all('*', function (request, response, next) {
 
 //returns the receipt page
 app.post("/process_form", function (req, res, next) {
+    console.log(req.body)
 
     //check to make sure the post body is a valid string
     if (typeof req.body['checkout'] == 'undefined') {
-        console.log('Invalid purchase');
+        console.log('Invalid checkout');
 
         //if invalid, send back to products page
         next();
     }
 
-    process_quantity_form(req.body, res);
+    //set iterator and blank entry counter
+    let i = 0;
+    let blanks = 0;
+
+    //set error array
+    error = [];
+
+    //iterate over each object in the post body looking for errors
+    for (let [product, qty] of Object.entries(req.body)) {
+        //stop the loop on the last key, the checkout
+        if (product != `quantity_textbox_${i}`) break;
+
+        //check how many entries are empty or 0, if it is all, reject
+        if (qty == '' || qty <= 0) blanks++;
+        if (blanks == products.length) error.push("There is nothing in your cart!");
+
+        //check if value is valid or empty
+        if (!isStrNonNegInt(qty) && qty != '') {
+            //collect errors to report
+            error.push(`<span style="color: grey">For ${products[i].range} ${products[i].model}:</span> ${isStrNonNegInt(qty, true)}`);
+        }
+
+        i++;
+    }
+
+    if (error.length != 0) {
+        process_error(res, error);
+    }
+    else {
+        process_quantity_form(req.body, res);
+    }
 });
 
 //load the products page
 app.get('/products', (req, res) => {
     let contents = fs.readFileSync('./views/product_page.template', 'utf8');
     res.send(eval('`' + contents + '`')); // render template string
-
-
 });
 
 //load the index page

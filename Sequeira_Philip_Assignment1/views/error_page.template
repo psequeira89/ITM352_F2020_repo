@@ -1,34 +1,31 @@
-<!-- w3 Schools template used
-from: https://www.w3schools.com/w3css/tryit.asp?filename=tryw3css_templates_food_blog&stacked=h -->
-
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="styles/style.css">
+    <link href="styles/style.css">
     <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Karma">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-    <title>CPU City</title>
+    <title>Error</title>
 </head>
 
 <body>
-
     <!-- Sidebar (hidden by default) -->
     <nav class="w3-sidebar w3-bar-block w3-card w3-top w3-xlarge w3-animate-left"
         style="display:none;z-index:2;width:40%;min-width:300px" id="mySidebar">
         <a href="javascript:void(0)" onclick="w3_close()" class="w3-bar-item w3-button fa fa-close"></a>
-        <a href="./products" onclick="w3_close()" class="w3-bar-item w3-button"> Shop CPUs</a>
+        <a href="#cpus" onclick="w3_close()" class="w3-bar-item w3-button"> Shop CPUs</a>
         <a href="#shipping" onclick="w3_close()" class="w3-bar-item w3-button fa fa-truck"> Shipping Policy</a>
+        <a href="/" onclick="w3_close()" class="w3-bar-item w3-button fa fa-home"> Return to Main Page</a>
     </nav>
 
     <!-- Top menu -->
     <div class="w3-top">
         <div class="w3-white w3-xlarge" style="max-width:1200px;margin:auto">
             <div class="w3-button w3-padding-16 w3-left" onclick="w3_open()">☰</div>
-            <div class="w3-center w3-padding-16">CPU City Home</div>
+            <div class="w3-center w3-padding-16">CPU City Store</div>
         </div>
     </div>
 
@@ -42,34 +39,31 @@ from: https://www.w3schools.com/w3css/tryit.asp?filename=tryw3css_templates_food
         </div>
     </header>
 
-    <hr id="greeting">
-
-    <!-- About Section -->
-    <div class="w3-container w3-padding-32 w3-center">
-        <h3>Welcome to CPU City!</h3><br>
-        <div class="w3-padding-32">
-            <h4><b>Build your system right!</b></h4>
-            <h6><i>Keep your system up and running with our curated selection of top performing CPUs</i></h6>
-            <a href="./products">
-                <p><button class="w3-button w3-block w3-blue w3-animate-top"
-                        style="padding: 1.5em; margin:2em auto">Shop Now!</button></p>
-            </a>
-        </div>
-    </div>
     <hr>
+
+    </header>
+
+    <main class="w3-container w3-content">
+        <h1>Oh no!</h1>
+        <h2>Something's not right here...</h2>
+        <!-- Print Error -->
+        <div class="w3-center">
+            ${report_error()}
+        </div>
+        <a href="./products">
+            <p><button class="w3-button w3-block w3-blue w3-animate-top" style="padding: 1.5em; margin:2em auto">Return
+                    to store page?</button></p>
+        </a>
+
+    </main>
+
+    <hr style="margin: 10em 0 10em 0;">
 
     <!-- Footer -->
     <footer class="w3-row-padding w3-padding-32">
         <div class="w3-third">
             <h3 id="shipping">SHIPPING POLICY</h3>
-            <br>
-            Shipping fees are charged by order subtotal:
-            <ul>
-                <li>$0 - $299.99: $2 shipping</li>
-                <li>$300 - $499.99: $5 shipping</li>
-                <li>$500 and greater: 1% of subtotal</li>
-            </ul>
-            <br>
+            ${load_shipping_statement()}
             <p>Powered by <a href="https://www.w3schools.com/w3css/default.asp" target="_blank">w3.css</a></p>
         </div>
 
@@ -115,7 +109,6 @@ from: https://www.w3schools.com/w3css/tryit.asp?filename=tryw3css_templates_food
             </p>
         </div>
     </footer>
-
 
     <script>
         // Script to open and close sidebar
