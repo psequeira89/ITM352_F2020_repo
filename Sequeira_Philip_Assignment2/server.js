@@ -6,6 +6,7 @@ let user_data_filename = 'user_data.json';
 let users_reg_data = {};
 let app = express();
 let active_users = [];
+let hold_order = {};
 const PORT = 8080;
 
 //stores the currently selected user index
@@ -157,6 +158,9 @@ function process_quantity_form(POST, res) {
 
         // Compute grand total
         total = subtotal + tax + shipping;
+
+        //reset the global temp order
+        hold_order = {};
 
         return str;
     }
@@ -348,7 +352,8 @@ function process_reg(req, res) {
 ///process login
 function process_login(req, res) {
     const POST = req.body;
-    console.log(POST);
+    console.log('Process Login: ',POST);
+    console.log('Process Login: ',hold_order);
 
     //set bad username and password flags
     let bad_username = true;
@@ -393,6 +398,13 @@ function process_login(req, res) {
     //if both the username and password are ok, login
     if (errors.length === 0) {
 
+        let redirect_to_receipt = false;
+
+        //check if there is an order pending
+        if (hold_order != undefined) {
+            redirect_to_receipt = true;
+        }
+
         //logs out current user
         update_current_user_index(false);
 
@@ -403,7 +415,15 @@ function process_login(req, res) {
         //set the current user index (simple logic, single user at a time)
         update_current_user_index(true);
 
-        res.redirect('/products');
+        //if user is logging in with a purchase pending, process the order
+        if (redirect_to_receipt){
+            process_quantity_form(hold_order,res);
+        }
+        
+        //if user is logging in without a purchase pending, take them to the store
+        else {
+            res.redirect('/products');
+        }
     }
 
     //if username or password is not correct, respond with errora
@@ -487,11 +507,26 @@ app.post("/process_form", function (req, res, next) {
         i++;
     }
 
+    //show errors if there are any
     if (error.length != 0) {
         process_error(res, error);
     }
+
+    //check if logged in, then process accordingly
     else {
-        process_quantity_form(req.body, res);
+
+        //if not logged in, save the current order to global temp object
+        if (active_users[current_user] == undefined){
+            hold_order = req.body;
+            
+            //ask to login
+            res.redirect('/login');
+        }
+
+        //if logged in, process order
+        else {
+            process_quantity_form(req.body, res);
+        }
     }
 });
 
@@ -514,12 +549,7 @@ app.get('/products', (req, res) => {
 //load the login page
 app.get('/login', (req, res) => {
     let contents = fs.readFileSync('./views/login.template', 'utf8');
-    res.send(eval('`' + contents + '`')); // render template string
-});
-
-//load the registration page
-app.get('/register', (req, res) => {
-    let contents = fs.readFileSync('./views/registration.template', 'utf8');
+    console.log('login page: ', hold_order)
     res.send(eval('`' + contents + '`')); // render template string
 });
 

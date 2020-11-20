@@ -37,12 +37,12 @@ from: https://www.w3schools.com/w3css/tryit.asp?filename=tryw3css_templates_food
 
         <main class="w3-container" style="margin:10em 0 100px">
 
+            <!-- Form to submit registration -->
             <div class="w3-card-4" style="max-width:900px;margin:auto">
                 <div class="w3-container w3-blue">
                     <h2>Create Your Account</h2>
                 </div>
                 <br>
-                <!-- Form to submit registration -->
                 <form action="/process_reg" method="POST" class="w3-container">
 
                     <!-- full name: <= 30 chars, only letters -->
