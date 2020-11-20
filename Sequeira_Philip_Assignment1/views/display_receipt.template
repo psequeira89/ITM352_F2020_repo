@@ -53,7 +53,7 @@ from: https://www.w3schools.com/w3css/tryit.asp?filename=tryw3css_templates_food
                 </tr>
 
                 <!-- product rows -->
-                ${display_invoice_table_rows()}
+                ${display_recipt_items()}
 
                 <!-- blank row -->
                 <tr class="w3-panel w3-bottombar w3-topbar">

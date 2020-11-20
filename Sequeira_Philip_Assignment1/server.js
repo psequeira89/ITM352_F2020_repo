@@ -92,14 +92,15 @@ function calculate_tax(tr, subtotal) {
 
 
 
+
 //process the checkout and return receipt page
-//borrowed from example
 function process_quantity_form(POST, res) {
     let contents = fs.readFileSync('./views/display_receipt.template', 'utf8');
     res.send(eval('`' + contents + '`')); // render template string
 
     //display table rows
-    function display_invoice_table_rows() {
+    //adapted from example
+    function display_recipt_items() {
         subtotal = 0;
         str = '';
 
@@ -152,7 +153,7 @@ function load_product_list() {
         //add start div
         str += `<div class="w3-row-padding w3-padding-16 w3-center">`;
 
-        //group by twos for layout
+        //group by fours for layout
         for (let j = 0; j < 4; j++) {
             str += `
                 <section id="product_${i}" class="w3-animate-top">
@@ -213,10 +214,8 @@ app.all('*', function (request, response, next) {
     next();
 });
 
-//returns the receipt page
+//checks for valid input and returns the receipt page if POST data is valid, or the error form if there is a problem
 app.post("/process_form", function (req, res, next) {
-    console.log(req.body)
-
     //check to make sure the post body is a valid string
     if (typeof req.body['checkout'] == 'undefined') {
         console.log('Invalid checkout');
@@ -230,7 +229,7 @@ app.post("/process_form", function (req, res, next) {
     let blanks = 0;
 
     //set error array
-    error = [];
+    let error = [];
 
     //iterate over each object in the post body looking for errors
     for (let [product, qty] of Object.entries(req.body)) {
