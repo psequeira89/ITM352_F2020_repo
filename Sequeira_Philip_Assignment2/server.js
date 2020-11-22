@@ -143,8 +143,6 @@ function calculate_tax(tr, subtotal) {
 function process_quantity_form(POST, res) {
     let contents = fs.readFileSync('./views/display_receipt.template', 'utf8');
 
-    console.log(POST)
-
     res.send(eval('`' + contents + '`')); // render template string
 
 
@@ -352,8 +350,6 @@ function process_reg(req, res) {
     if (!validator.email.test(req_user.email)){
         errors.push('Please enter valid email address');
     }
-
-    console.log(req_user.password, req_user.password2);
 
     //check if passwords match
     if (req_user.password != req_user.password2) {
