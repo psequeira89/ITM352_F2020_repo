@@ -1,5 +1,17 @@
 <!-- w3 Schools template used
 from: https://www.w3schools.com/w3css/tryit.asp?filename=tryw3css_templates_food_blog&stacked=h -->
+
+<!-- 
+Assignment 2 for ITM 352
+
+Author: Philip Sequeira (paseque@hawaii.edu)
+Date: November 2020
+Filename: login.template
+Description: 
+    'login.template' is the template file to display the login and registration page for the store 'CPU City'.
+    Both the login and registration are handled on the same page through by swapping hidden forms
+-->
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -32,6 +44,12 @@ from: https://www.w3schools.com/w3css/tryit.asp?filename=tryw3css_templates_food
     </div>
     <div class="w3-main w3-content w3-padding" style="max-width:1200px;margin-top:100px">
 
+        <!-- New registration welcome modal -->
+        ${display_new_reg_welcome()}
+
+        <!-- displays error screen -->
+        ${report_error()}
+
         <main class="w3-container" style="margin:10em 0 100px">
 
             <!-- Form to submit login -->
@@ -41,20 +59,20 @@ from: https://www.w3schools.com/w3css/tryit.asp?filename=tryw3css_templates_food
                 </div>
                 <br>
 
-                <form action="/process_login" method="POST" class="w3-container">
-                    <label for="username">Username:</label>
-                    <input type="text" class="w3-input" name="username" placeholder="enter username" required><br>
+                <form action="/process_login" method="POST" class="w3-container" name="login-form" id="login-form">
+                    <label for="login_username">Username:</label>
+                    <input type="text" pattern="[a-zA-Z0-9]{4,10}" title="Usernames must be 4-10 characters, numbers/letters only" class="w3-input" name="login_username" placeholder="enter username" id="login_username" autocomplete="off"
+                        required><br>
 
-                    <label for="password">Password:</label>
-                    <input type="password" class="w3-input" name="password" placeholder="enter password" required><br>
+                    <label for="login_password">Password:</label>
+                    <input type="password" pattern=".{6,}" title="Passwords must be at least 6 characters, case sensitive" class="w3-input" name="login_password" placeholder="enter password" required><br>
 
                     <div class="w3-row-padding">
                         <div class="w3-half">
                             <input type="submit" class="w3-input w3-btn w3-white w3-hover-blue w3-border" value="Login">
                         </div>
                         <div class="w3-half">
-                        <button class="w3-input w3-btn w3-light-blue w3-hover-blue w3-border" 
-                            onclick="document.getElementById('reg').style.display='block';
+                            <button type="button" class="w3-input w3-btn w3-light-blue w3-hover-blue w3-border" onclick="document.getElementById('reg').style.display='block';
                             document.getElementById('login').style.display='none';">Create an Account</button>
                         </div>
                     </div>
@@ -68,34 +86,47 @@ from: https://www.w3schools.com/w3css/tryit.asp?filename=tryw3css_templates_food
                     <h2>Create Your Account</h2>
                 </div>
                 <br>
-                <form action="/process_reg" method="POST" class="w3-container">
+                <form action="/process_reg" method="POST" class="w3-container" id="reg-form">
 
                     <!-- full name: <= 30 chars, only letters -->
-                    <label for="fullname">Full Name:</label>
-                    <input type="text" class="w3-input" name="fullname" placeholder="enter your full name" require><br>
+                    <label for="reg_fullname">Full Name:</label>
+                    <input type="text" pattern="[a-zA-Z\ ]{1,30}" title="Up to 30 characters, letters only" class="w3-input" id="reg_fullname" name="reg_fullname" placeholder="enter your full name"
+                        autocomplete="off" required><br>
 
                     <!-- username: 4-10 characters, only letters and numbers, case insensitive, must be unique -->
-                    <label for="username">Username:</label>
-                    <input type="text" class="w3-input" name="username" placeholder="enter username" require><br>
+                    <label for="reg_username">Username:</label>
+                    <input type="text" pattern="[a-zA-Z0-9]{4,10}" title="Usernames must be 4-10 characters, numbers/letters only" class="w3-input" name="reg_username" placeholder="enter username" id="reg_username" autocomplete="off"
+                        required><br>
 
                     <!-- password: >= 6 chars, all chars valid, case sensitive -->
-                    <label for="password">Password:</label>
-                    <input type="password" class="w3-input" name="password" placeholder="enter password" require><br>
+                    <label for="reg_password">Password:</label>
+                    <input type="password" pattern=".{6,}" title="Passwords must be at least 6 characters, case sensitive" class="w3-input" name="reg_password" placeholder="enter password" required><br>
 
-                    <label for="repeat_password">Enter Password Again:</label>
-                    <input type="password" class="w3-input" name="repeat_password" placeholder="enter password again" require><br>
+                    <label for="reg_repeat_password">Enter Password Again:</label>
+                    <input type="password" pattern=".{6,}" title="Passwords must be at least 6 characters, case sensitive" class="w3-input" name="reg_repeat_password" placeholder="enter password again"
+                        required><br>
 
                     <!-- email address: format is x@y.z, case sensitive
                         x: only letters, numbers and '_' and '.'
                         y: only letters, numbers, and '.'
                         z: 2-3 letters -->
-                    <label for="email">Email:</label>
-                    <input type="email" class="w3-input" name="email" placeholder="enter email"><br>
+                    <label for="reg_email">Email:</label>
+                    <input type="email" pattern="^[a-zA-Z0-9._]+@[a-zA-Z0-9.]+\.[a-zA-Z]{2,3}$" title="Please enter valid email address" class="w3-input" name="reg_email" id="reg_email" placeholder="enter email" autocomplete="off"
+                        required><br>
 
-                    <input type="submit" class="w3-input w3-btn w3-blue w3-hover-white w3-border" value="Submit" id="submit"><br>
+                    <div class="w3-row-padding">
+                        <div class="w3-half">
+                            <input type="submit" class="w3-input w3-btn w3-light-blue w3-hover-blue w3-border"
+                                value="Submit">
+                        </div>
+                        <div class="w3-half">
+                            <button type="button" class="w3-input w3-btn w3-white w3-hover-blue  w3-border" onclick="document.getElementById('login').style.display='block';
+                            document.getElementById('reg').style.display='none';">Back to Login</button>
+                        </div>
+                    </div>
+                    <br>
                 </form>
             </div>
-
 
         </main>
 
@@ -106,7 +137,8 @@ from: https://www.w3schools.com/w3css/tryit.asp?filename=tryw3css_templates_food
             <div class="w3-third">
                 <h3 id="shipping">SHIPPING POLICY</h3>
                 ${load_shipping_statement()}
-                <p>Powered by <a href="https://www.w3schools.com/w3css/default.asp" target="_blank" style="text-decoration: none">w3.css</a></p>
+                <p>Powered by <a href="https://www.w3schools.com/w3css/default.asp" target="_blank"
+                        style="text-decoration: none">w3.css</a></p>
             </div>
 
             <div class="w3-third">
@@ -155,13 +187,84 @@ from: https://www.w3schools.com/w3css/tryit.asp?filename=tryw3css_templates_food
     </div>
 
     <script>
+        //use localStorage to save last login username
+        let login_form = document.getElementById("login-form");
+        let reg_form = document.getElementById("reg-form");
+
+        //event listeners for submission
+        login_form.addEventListener('submit', saveLogin);
+        reg_form.addEventListener('submit', saveReg);
+
+        //load sticky data
+        window.onload = loadSticky();
+
+        //saves username from login attempts
+        function saveLogin(event){
+            //collect username from form submission event
+            let username = document.getElementById('login_username').value;
+
+            //set the local storage item
+            localStorage.setItem('login_username', username);
+        }
+
+        //saves form data from registration attemps
+        function saveReg(event){
+            //collect data from form submission event
+            let data = [];
+
+            let username = document.getElementById('reg_username').value;
+            let fullname = document.getElementById('reg_fullname').value;
+            let email = document.getElementById('reg_email').value;
+
+            //set the local storage item
+            localStorage.setItem('reg_username', username);
+            localStorage.setItem('reg_fullname', fullname);
+            localStorage.setItem('reg_email', email);
+        }
+
+        //loads in last entered values in forms except for passwords
+        function loadSticky(){
+            if (localStorage.getItem('login_username') !== null) document.getElementById('login_username').value = localStorage.getItem('login_username');
+            if (localStorage.getItem('reg_username') !== null) document.getElementById('reg_username').value = localStorage.getItem('reg_username');
+            if (localStorage.getItem('reg_fullname') !== null) document.getElementById('reg_fullname').value = localStorage.getItem('reg_fullname');
+            if (localStorage.getItem('reg_email') !== null) document.getElementById('reg_email').value = localStorage.getItem('reg_email');
+        }
+
         // Script to open and close sidebar
         function w3_open() {
             document.getElementById("mySidebar").style.display = "block";
         }
-
         function w3_close() {
             document.getElementById("mySidebar").style.display = "none";
+        }
+
+        //operates the modal for error
+        // Get the modal
+        let reg_modal = document.getElementById('reg-success');
+        let err_modal = document.getElementById('error');
+
+        function showModal(id) {
+            document.getElementById(id).style.display = 'block';
+        }
+
+        // When the user clicks anywhere outside of the modal, close it
+        window.onclick = function (event) {
+            if (event.target == reg_modal) reg_modal.style.display = "none";
+            if (event.target == err_modal) err_modal.style.display = "none";
+        }
+
+        //display regmodal as block onload if registration is successful
+        try {
+            window.onload = showModal("reg-success");
+        } catch {
+            //intentionally blank. catches TypeError if modals are not present on load
+        }
+
+        //display modal as block onload if error exists
+        try {
+            window.onload = showModal("error");
+        } catch {
+            //intentionally blank. catches TypeError if modals are not present on load
         }
     </script>
 </body>

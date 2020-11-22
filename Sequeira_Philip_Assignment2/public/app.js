@@ -1,3 +1,15 @@
+/*
+Assignment 2 for ITM 352
+
+Author: Philip Sequeira (paseque@hawaii.edu)
+Date: November 2020
+Filename: app.js
+Description: 
+    'app.js' holds functions for displaying client-side error checking for the store 'CPU City'.
+*/
+
+
+
 //warns user if input is not valid in the textbox
 function checkQuantityTextbox(text_input, product) {
     var msg = document.getElementById(`qty_textbox_message_${product}`);

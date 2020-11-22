@@ -1,5 +1,16 @@
 <!-- w3 Schools template used
 from: https://www.w3schools.com/w3css/tryit.asp?filename=tryw3css_templates_food_blog&stacked=h -->
+
+<!-- 
+Assignment 2 for ITM 352
+
+Author: Philip Sequeira (paseque@hawaii.edu)
+Date: November 2020
+Filename: error_page.template
+Description: 
+    'error_page.template' is the template file to display the error page for the store 'CPU City'.
+-->
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -29,7 +40,7 @@ from: https://www.w3schools.com/w3css/tryit.asp?filename=tryw3css_templates_food
     <div class="w3-top">
         <div class="w3-white w3-xlarge" style="max-width:1200px;margin:auto">
             <div class="w3-button w3-padding-16 w3-left" onclick="w3_open()">☰</div>
-            <div class="w3-right w3-padding-16">${load_user_name()}</div>
+            <div class="w3-right w3-padding-16">${load_top_right()}</div>
             <div class="w3-center w3-padding-16">CPU City</div>
         </div>
     </div>
@@ -116,22 +127,26 @@ from: https://www.w3schools.com/w3css/tryit.asp?filename=tryw3css_templates_food
             document.getElementById("mySidebar").style.display = "none";
         }
 
-        var slideIndex = 1;
-        showDivs(slideIndex);
+        //operates the modal for error
+        // Get the modal
+        let modal = document.getElementById('error');
 
-        function plusDivs(n) {
-            showDivs(slideIndex += n);
+        function showModal() {
+            document.getElementById('error').style.display = 'block';
         }
 
-        function showDivs(n) {
-            var i;
-            var x = document.getElementsByClassName("mySlides");
-            if (n > x.length) { slideIndex = 1 }
-            if (n < 1) { slideIndex = x.length }
-            for (i = 0; i < x.length; i++) {
-                x[i].style.display = "none";
+        // When the user clicks anywhere outside of the modal, close it
+        window.onclick = function (event) {
+            if (event.target == modal) {
+                modal.style.display = "none";
             }
-            x[slideIndex - 1].style.display = "block";
+        }
+
+        //display modal as block onload if error exists
+        try {
+            window.onload = showModal();
+        } catch {
+            //intentionally blank. catches TypeError if error modal is not present on load
         }
     </script>
 </body>

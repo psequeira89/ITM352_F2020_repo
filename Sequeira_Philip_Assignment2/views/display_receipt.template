@@ -1,5 +1,16 @@
 <!-- w3 Schools template used
 from: https://www.w3schools.com/w3css/tryit.asp?filename=tryw3css_templates_food_blog&stacked=h -->
+
+<!-- 
+Assignment 2 for ITM 352
+
+Author: Philip Sequeira (paseque@hawaii.edu)
+Date: November 2020
+Filename: display_receipt.template
+Description: 
+    'display_receipt.template' is the template file to display the invoice page for the store 'CPU City'.
+-->
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -28,10 +39,12 @@ from: https://www.w3schools.com/w3css/tryit.asp?filename=tryw3css_templates_food
     <div class="w3-top">
         <div class="w3-white w3-xlarge" style="max-width:1200px;margin:auto">
             <div class="w3-button w3-padding-16 w3-left" onclick="w3_open()">☰</div>
-            <div class="w3-center w3-padding-16" style="font-size:3em">Invoice</div>
+            <div class="w3-right w3-padding-16" id="greeter">${load_top_right()}</div>
+            <div class="w3-center w3-padding-16" style="font-size:1em">CPU City</div>
         </div>
     </div>
 
+    <!-- Header images -->
     <header class="w3-center w3-content" style="max-width:1500px">
         <div class="w3-center w3-content w3-display-container">
             <img class="mySlides w3-image" src="images/logo.jpg" style="width:100%; height:900px;max-width: 1000px">
@@ -41,107 +54,126 @@ from: https://www.w3schools.com/w3css/tryit.asp?filename=tryw3css_templates_food
             <button class="w3-button w3-black w3-display-right w3-padding-64" onclick="plusDivs(1)">&#10095;</button>
         </div>
     </header>
-    <main class="w3-container">
-        <!-- table borrowed from example with w3 style applied -->
-        <table class="w3-table-all w3-card-4 w3-animate-top" style="max-width:1200px;margin:auto">
-            <tbody>
-                <!-- table heading -->
-                <tr>
-                    <th>Item</th>
-                    <th>Quantity</th>
-                    <th>Price</th>
-                    <th>Extended Price</th>
-                </tr>
 
-                <!-- product rows -->
-                ${display_recipt_items()}
+    <div class="w3-main w3-content w3-padding" style="max-width:1200px;margin-top:100px">
 
-                <!-- blank row -->
-                <tr class="w3-panel w3-bottombar w3-topbar">
-                    <td colspan="4" width="100%">&nbsp;</td>
-                </tr>
+        <main class="w3-container">
 
-                <!-- subtotal -->
-                <tr>
-                    <td style="text-align: center;" colspan="3" width="67%">Sub-total</td>
-                    <td width="54%">$
-                        ${subtotal}
-                    </td>
-                </tr>
+            <h1 class="w3-center w3-animate-top">Thank you for your purchase, ${get_user_name()}!</h1>
+            <br>
 
-                <!-- tax -->
-                <tr>
-                    <td style="text-align: center;" colspan="3" width="67%">Tax @
-                        ${(100 * tax_rate)}%</td>
-                    <td width="54%">\$${tax.toFixed(2)}</td>
-                </tr>
+            
+            <!-- table borrowed from example with w3 style applied -->
+            <table class="w3-table-all w3-card-4 w3-animate-top" style="max-width:1200px;margin:auto">
+                <div class="w3-container w3-blue w3-animate-top">
+                    <h2 class="w3-center">Invoice</h2>
+                </div>
+                <tbody>
+                    <!-- table heading -->
+                    <tr>
+                        <th>Item</th>
+                        <th>Quantity</th>
+                        <th>Price</th>
+                        <th>Extended Price</th>
+                    </tr>
 
-                <!-- shipping fee -->
-                <tr>
-                    <td style="text-align: center;" colspan="3" width="67%">Shipping</td>
-                    <td width="54%">\$${shipping.toFixed(2)}</td>
-                </tr>
+                    <!-- product rows -->
+                    ${display_recipt_items()}
 
-                <!-- total -->
-                <tr>
-                    <td style="text-align: center;" colspan="3" width="67%"><strong>Total</strong></td>
-                    <td width="54%"><strong>\$${total.toFixed(2)}</strong></td>
-                </tr>
-            </tbody>
-        </table>
-    </main>
-    <hr>
+                    <!-- blank row -->
+                    <tr class="w3-panel w3-bottombar w3-topbar">
+                        <td colspan="4" width="100%">&nbsp;</td>
+                    </tr>
 
-    <!-- Footer -->
-    <footer class="w3-row-padding w3-padding-32">
-        <div class="w3-third">
-            <h3 id="shipping">SHIPPING POLICY</h3>
-            ${load_shipping_statement()}
-            <p>Powered by <a href="https://www.w3schools.com/w3css/default.asp" target="_blank">w3.css</a></p>
-        </div>
+                    <!-- subtotal -->
+                    <tr>
+                        <td style="text-align: center;" colspan="3" width="67%">Sub-total</td>
+                        <td width="54%">$
+                            ${subtotal.toFixed(2)}
+                        </td>
+                    </tr>
 
-        <div class="w3-third">
-            <h3>BLOG POSTS</h3>
-            <ul class="w3-ul w3-hoverable">
-                <li class="w3-padding-16">
-                    <a href="https://psequeira89.github.io/essays/Introduction.html" target="_blank">
-                        <img src="https://icdn2.digitaltrends.com/image/amd-ryzen-7-1700-cpu-inhand1-2-1500x1000.jpg"
-                            class="w3-left w3-margin-right" style="width:50px">
-                        <span class="w3-large">Introduction</span><br>
-                        <span>The man behind the city</span>
-                    </a>
-                </li>
-                <li class="w3-padding-16">
-                    <a href="https://psequeira89.github.io/essays/E1_ui_basics.html" target="_blank">
-                        <img src="https://www.routerloginsupport.com/wp-content/uploads/2018/04/rayzen.jpg"
-                            class="w3-left w3-margin-right" style="width:50px">
-                        <span class="w3-large">UI Technical Essay</span><br>
-                        <span>The early days</span>
-                    </a>
-                </li>
-            </ul>
-        </div>
+                    <!-- tax -->
+                    <tr>
+                        <td style="text-align: center;" colspan="3" width="67%">Tax @
+                            ${(100 * tax_rate)}%</td>
+                        <td width="54%">\$${tax.toFixed(2)}</td>
+                    </tr>
 
-        <div class="w3-third w3-serif">
-            <h3>POPULAR TAGS</h3>
-            <p>
-                <span class="w3-tag w3-black w3-margin-bottom">CPU</span> <span
-                    class="w3-tag w3-dark-grey w3-small w3-margin-bottom">AMD</span> <span
-                    class="w3-tag w3-dark-grey w3-small w3-margin-bottom">Ryzen</span>
-                <span class="w3-tag w3-dark-grey w3-small w3-margin-bottom">Intel</span> <span
-                    class="w3-tag w3-dark-grey w3-small w3-margin-bottom">Computer</span> <span
-                    class="w3-tag w3-dark-grey w3-small w3-margin-bottom">PC</span>
-                <span class="w3-tag w3-dark-grey w3-small w3-margin-bottom">Electronics</span> <span
-                    class="w3-tag w3-dark-grey w3-small w3-margin-bottom">Do-it-yourself</span> <span
-                    class="w3-tag w3-dark-grey w3-small w3-margin-bottom">Buy</span>
-                <span class="w3-tag w3-dark-grey w3-small w3-margin-bottom">Shop</span> <span
-                    class="w3-tag w3-dark-grey w3-small w3-margin-bottom">CPU City</span> <span
-                    class="w3-tag w3-dark-grey w3-small w3-margin-bottom">New</span>
-                <span class="w3-tag w3-dark-grey w3-small w3-margin-bottom">Fast</span> <span
-                    class="w3-tag w3-dark-grey w3-small w3-margin-bottom">Best</span>
-            </p>
-        </div>
-    </footer>
+                    <!-- shipping fee -->
+                    <tr>
+                        <td style="text-align: center;" colspan="3" width="67%">Shipping*</td>
+                        <td width="54%">\$${shipping.toFixed(2)}</td>
+                    </tr>
+
+                    <!-- total -->
+                    <tr>
+                        <td style="text-align: center;" colspan="3" width="67%"><strong>Total</strong></td>
+                        <td width="54%"><strong>\$${total.toFixed(2)}</strong></td>
+                    </tr>
+                </tbody>
+            </table>
+        </main>
+
+        <a href="./products" style="text-decoration: none">
+            <p><button class="w3-button w3-card-4 w3-block w3-blue w3-animate-top" style="padding: 1.5em; margin:2em auto">Return
+                    to store page?</button></p>
+        </a>
+        <br>
+        <hr>
+
+        <!-- Footer -->
+        <footer class="w3-row-padding w3-padding-32">
+            <div class="w3-third">
+                <h3 id="shipping">SHIPPING POLICY*</h3>
+                ${load_shipping_statement()}
+                <p>Powered by <a href="https://www.w3schools.com/w3css/default.asp" target="_blank" style="text-decoration: none">w3.css</a></p>
+            </div>
+
+            <div class="w3-third">
+                <h3>BLOG POSTS</h3>
+                <ul class="w3-ul w3-hoverable">
+                    <li class="w3-padding-16">
+                        <a href="https://psequeira89.github.io/essays/Introduction.html" target="_blank">
+                            <img src="https://icdn2.digitaltrends.com/image/amd-ryzen-7-1700-cpu-inhand1-2-1500x1000.jpg"
+                                class="w3-left w3-margin-right" style="width:50px">
+                            <span class="w3-large">Introduction</span><br>
+                            <span>The man behind the city</span>
+                        </a>
+                    </li>
+                    <li class="w3-padding-16">
+                        <a href="https://psequeira89.github.io/essays/E1_ui_basics.html" target="_blank">
+                            <img src="https://www.routerloginsupport.com/wp-content/uploads/2018/04/rayzen.jpg"
+                                class="w3-left w3-margin-right" style="width:50px">
+                            <span class="w3-large">UI Technical Essay</span><br>
+                            <span>The early days</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="w3-third w3-serif">
+                <h3>POPULAR TAGS</h3>
+                <p>
+                    <span class="w3-tag w3-black w3-margin-bottom">CPU</span> <span
+                        class="w3-tag w3-dark-grey w3-small w3-margin-bottom">AMD</span> <span
+                        class="w3-tag w3-dark-grey w3-small w3-margin-bottom">Ryzen</span>
+                    <span class="w3-tag w3-dark-grey w3-small w3-margin-bottom">Intel</span> <span
+                        class="w3-tag w3-dark-grey w3-small w3-margin-bottom">Computer</span> <span
+                        class="w3-tag w3-dark-grey w3-small w3-margin-bottom">PC</span>
+                    <span class="w3-tag w3-dark-grey w3-small w3-margin-bottom">Electronics</span> <span
+                        class="w3-tag w3-dark-grey w3-small w3-margin-bottom">Do-it-yourself</span> <span
+                        class="w3-tag w3-dark-grey w3-small w3-margin-bottom">Buy</span>
+                    <span class="w3-tag w3-dark-grey w3-small w3-margin-bottom">Shop</span> <span
+                        class="w3-tag w3-dark-grey w3-small w3-margin-bottom">CPU City</span> <span
+                        class="w3-tag w3-dark-grey w3-small w3-margin-bottom">New</span>
+                    <span class="w3-tag w3-dark-grey w3-small w3-margin-bottom">Fast</span> <span
+                        class="w3-tag w3-dark-grey w3-small w3-margin-bottom">Best</span>
+                </p>
+            </div>
+        </footer>
+
+    </div>
 
     <script>
         // Script to open and close sidebar
@@ -169,6 +201,14 @@ from: https://www.w3schools.com/w3css/tryit.asp?filename=tryw3css_templates_food
                 x[i].style.display = "none";
             }
             x[slideIndex - 1].style.display = "block";
+        }
+
+        //clear localStorage if logged in successfully
+        if(document.getElementById("greeter").innerText != 'Login'){
+            if (localStorage.getItem('login_username') !== null) localStorage.removeItem('login_username');
+            if (localStorage.getItem('reg_username') !== null) localStorage.removeItem('reg_username');
+            if (localStorage.getItem('reg_fullname') !== null) localStorage.removeItem('reg_fullname');
+            if (localStorage.getItem('reg_email') !== null) localStorage.removeItem('reg_email');
         }
     </script>
 </body>
