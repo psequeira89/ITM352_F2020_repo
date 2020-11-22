@@ -16,6 +16,9 @@ let user_data_filename = 'user_data.json';
 let users_reg_data = {};
 let app = express();
 const PORT = 8080;
+let date_ob = new Date();
+
+//for presenting welcome on successful registration
 let newReg = false;
 let newRegName = '';
 
@@ -54,6 +57,31 @@ if (fs.existsSync(user_data_filename)) {
     //display error when data file not found
     let err_msg = `------------ERROR-------------\nThe file: \'${user_data_filename}\' could not be found.\nCheck the file path of ${user_data_filename}\n------------------------------`;
     console.log(err_msg);
+}
+
+//returns formatted timestamp
+//from https://usefulangle.com/post/187/nodejs-get-date-time
+function get_timestamp() {
+    // adjust 0 before single digit date
+    let date = ("0" + date_ob.getDate()).slice(-2);
+
+    // current month
+    let month = ("0" + (date_ob.getMonth() + 1)).slice(-2);
+
+    // current year
+    let year = date_ob.getFullYear();
+
+    // current hours
+    let hours = date_ob.getHours();
+
+    // current minutes
+    let minutes = date_ob.getMinutes();
+
+    // current seconds
+    let seconds = date_ob.getSeconds();
+
+    // prints date & time in YYYY-MM-DD HH:MM:SS format
+    return year + "-" + month + "-" + date + " " + hours + ":" + minutes + ":" + seconds;
 }
 
 //checks if input is non-negative integer
@@ -144,7 +172,6 @@ function process_quantity_form(POST, res) {
     let contents = fs.readFileSync('./views/display_receipt.template', 'utf8');
 
     res.send(eval('`' + contents + '`')); // render template string
-
 
     //display table rows
     //adapted from example
@@ -239,7 +266,7 @@ function load_product_list() {
 function report_error() {
     str = '';
 
-    if (all_errors.length > 0){
+    if (all_errors.length > 0) {
 
         //creates the modal with id 'error'
         str += `
@@ -256,14 +283,14 @@ function report_error() {
                             <h3>Something's not right here...</h3>
                             `;
 
-                            //include all errors
-                            for (error in all_errors) {
-                                str += `
+        //include all errors
+        for (error in all_errors) {
+            str += `
                                     <h4 style="color:red;">${all_errors[error]}</h4>
                                 `;
-                            }
+        }
 
-                            str += `
+        str += `
                             <br>
                         </div>
                     </div>
@@ -347,7 +374,7 @@ function process_reg(req, res) {
     //     y: only letters, numbers, and '.'
     //     z: 2-3 letters
     //check for bad email
-    if (!validator.email.test(req_user.email)){
+    if (!validator.email.test(req_user.email)) {
         errors.push('Please enter valid email address');
     }
 
@@ -371,7 +398,12 @@ function process_reg(req, res) {
 
     //if successful, add data and return to login
     else {
+
+        //get rid of redundant password
+        delete req_user.password2;
+
         users_reg_data.push(req_user);
+
         fs.writeFileSync(user_data_filename, JSON.stringify(users_reg_data));
 
         // set display registration success message flag to true
@@ -501,7 +533,7 @@ function update_current_user_index(login) {
 }
 
 //validate checkout form and either process or redirect to login
-function validate_checkout_form(req,res){
+function validate_checkout_form(req, res) {
     const POST = req.body;
 
     //set iterator and blank entry counter
@@ -552,9 +584,9 @@ function validate_checkout_form(req,res){
 }
 
 //returns registration success message in a modal
-function display_new_reg_welcome(){
+function display_new_reg_welcome() {
     str = '';
-    if (newReg){
+    if (newReg) {
         str += `
             <div class="w3-container">
                 <div id="reg-success" class="w3-modal">
@@ -586,7 +618,7 @@ function display_new_reg_welcome(){
 
 //prints a log of all incoming requests
 app.all('*', function (request, response, next) {
-    console.log(request.method + ' to path ' + request.path);
+    console.log(`${get_timestamp()}: ${request.method} to path ${request.path}`);
     next();
 });
 
@@ -603,7 +635,7 @@ app.post("/process_form", function (req, res, next) {
     }
 
     //validate checkout form and either process or redirect to login
-    validate_checkout_form(req,res);
+    validate_checkout_form(req, res);
 });
 
 ///process registration
