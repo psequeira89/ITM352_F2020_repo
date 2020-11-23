@@ -85,45 +85,36 @@ function get_timestamp() {
 }
 
 //checks if input is non-negative integer
-//returns a string message in the first element of an array if error found by building the message
+//returns a string message in the first element of an array if error found
 function isStrNonNegInt(str, errlog = false) {
     let errors = []; // assume no errors at first
-    errors.push('Please enter'); //the first item in the array is the message prefix
+    let msg = {}; //set error messages
+    msg.notNum = 'Please enter a number!';
+    msg.notPos = 'Please enter a positive number!';
+    msg.notInt = 'Please enter an integer!';
+    msg.notPosInt = 'Please enter a positive integer!';
 
     // Check if string is a number value
     if (Number(str) != str) {
-        errors.push(' a number!');
-        errors = [errors.join('')];
+        errors.push(msg.notNum);
         return errlog ? errors : false;
     }
 
-    // Check if it is non-negative
-    if (str < 0) {
-        errors.push(' a positive');
-    }
+    // Check if it is negative
+    if (str < 0) errors.push(msg.notPos);
 
     // Check that it is an integer
     if (parseInt(str) != str) {
-        //check if error array contains an error already
-        if (errors[1] == ' a positive' && errors.length > 1) {
-            errors.push(', ');
+        //check if error is already non-negative
+        if (errors.length > 0) {
+            //replace notPos with notPostInt
+            errors=[msg.notPosInt];
         }
         else {
-            errors.push(' an ');
+            errors.push(msg.notInt);
         }
-        errors.push('integer');
     }
 
-    //add suffix to complete message
-    errors.push(' number!');
-
-    //return errors as the first index of errors.length
-    if (errors.length == 2) {
-        errors = [];
-    }
-    else {
-        errors = [errors.join('')];
-    }
     return errlog ? errors : (errors.length == 0);
 }
 
@@ -337,6 +328,8 @@ function get_user_name() {
 function process_reg(req, res) {
     const POST = req.body;
 
+    console.log('REG TEST, POST: ', POST);
+
     //setup error collector
     let errors = [];
 
@@ -384,10 +377,13 @@ function process_reg(req, res) {
     //standardize stored usernames to be all lowercase
     req_user.username = req_user.username.toLowerCase();
 
+    console.log('REG TEST 2, username: ', typeof req_user.username);
+
+
+    console.log('REG TEST 2, database username: ', typeof users_reg_data[req_user.username]);
+
+
     //check if username is available
-
-    console.log('TEST REG 1 username type: ', typeof users_reg_data[req_user.username])
-
     if (typeof users_reg_data[req_user.username] != 'undefined'){
         errors.push('Username taken');
     }
@@ -400,14 +396,27 @@ function process_reg(req, res) {
     //if successful, add data and return to login
     else {
 
+        //save username
+        let username  = req_user.username;
+
         //remove redundante username from req_user
         delete req_user.username;
 
         //add req user to users_reg_data
-        users_reg_data[POST['reg_username'].toLowerCase()] = req_user;
+        users_reg_data[username] = {};
+        users_reg_data[username].password = req_user.password;
+        users_reg_data[username].fullname = req_user.fullname;
+        users_reg_data[username].email = req_user.email;
+        let new_user_data = JSON.stringify(users_reg_data)
+
+        console.log('REG TEST 3, new user data: ', new_user_data);
 
         //write users_req_data to user data file
-        fs.writeFileSync(user_data_filename, JSON.stringify(users_reg_data));
+        try{
+            fs.writeFileSync(user_data_filename, new_user_data, 'utf-8');
+        } catch (e){
+            console.log('some kind of write error', e);
+        }
 
         // set display registration success message flag to true
         newReg = true;
@@ -440,12 +449,10 @@ function process_login(req, res) {
 
     //checks username and password
     //check if user exists
-    console.log('TEST LOGIN 1 username type: ', typeof users_reg_data[req_user.username]);
     if (typeof users_reg_data[req_user.username] != 'undefined'){
         bad_username = false;
 
         //check if password matches user
-        console.log('TEST LOGIN 2 password type: ', typeof users_reg_data[req_user.username].password);
         if (typeof users_reg_data[req_user.username].password != 'undefined'){
             bad_password = false;
         }
@@ -462,7 +469,6 @@ function process_login(req, res) {
         let redirect_to_receipt = false;
 
         //check if guest and there is an order pending
-        console.log('TEST LOGIN 3 hold order type: ', typeof active_users[current_user].hold_order);
         if (current_user === "guest" && typeof active_users[current_user].hold_order != 'undefined') {
             redirect_to_receipt = true;
         }
@@ -529,7 +535,6 @@ function logout_user(logout_user){
 //validate checkout form and either process or redirect to login
 function validate_checkout_form(req, res) {
     const POST = req.body;
-    console.log(POST);
 
     //set iterator and blank entry counter
     let i = 0;
@@ -554,8 +559,6 @@ function validate_checkout_form(req, res) {
         }
         i++;
     }
-
-    console.log(blanks)
 
     //show errors if there are any
     if (error.length != 0) {

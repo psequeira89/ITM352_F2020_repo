@@ -22,51 +22,85 @@ function checkQuantityTextbox(text_input, product) {
     }
 }
 
+//checks if input is non-negative integer
+//returns a string message in the first element of an array if error found
+function isStrNonNegInt(str, errlog = false) {
+    let errors = []; // assume no errors at first
+    let msg = {}; //set error messages
+    msg.notNum = 'Please enter a number!';
+    msg.notPos = 'Please enter a positive number!';
+    msg.notInt = 'Please enter an integer!';
+    msg.notPosInt = 'Please enter a positive integer!';
+
+    // Check if string is a number value
+    if (Number(str) != str) {
+        errors.push(msg.notNum);
+        return errlog ? errors : false;
+    }
+
+    // Check if it is negative
+    if (str < 0) errors.push(msg.notPos);
+
+    // Check that it is an integer
+    if (parseInt(str) != str) {
+        //check if error is already non-negative
+        if (errors.length > 0) {
+            //replace notPos with notPostInt
+            errors=[msg.notPosInt];
+        }
+        else {
+            errors.push(msg.notInt);
+        }
+    }
+
+    return errlog ? errors : (errors.length == 0);
+}
+
 //resets error message after user deletes all text
 function resetErrorMsg(msg) {
     msg.innerHTML = "Quantity Desired:";
     msg.style.color = "black";
 }
 
-//checks if input is non-negative integer
-//returns a string message in the first element of an array if error found
-function isStrNonNegInt(str, errlog = false) {
-    let errors = []; // assume no errors at first
-    errors.push('Please enter'); //the first item in the array is the message prefix
+// //checks if input is non-negative integer
+// //returns a string message in the first element of an array if error found
+// function isStrNonNegInt(str, errlog = false) {
+//     let errors = []; // assume no errors at first
+//     errors.push('Please enter'); //the first item in the array is the message prefix
 
-    // Check if string is a number value
-    if (Number(str) != str) {
-        errors.push(' a number!');
-        errors = [errors.join('')];
-        return errlog ? errors : false;
-    }
+//     // Check if string is a number value
+//     if (Number(str) != str) {
+//         errors.push(' a number!');
+//         errors = [errors.join('')];
+//         return errlog ? errors : false;
+//     }
 
-    // Check if it is non-negative
-    if (str < 0) {
-        errors.push(' a positive');
-    }
+//     // Check if it is non-negative
+//     if (str < 0) {
+//         errors.push(' a positive');
+//     }
 
-    // Check that it is an integer
-    if (parseInt(str) != str) {
-        //check if error array contains an error already
-        if (errors[1] == ' a positive' && errors.length > 1) {
-            errors.push(', ');
-        }
-        else {
-            errors.push(' an ');
-        }
-        errors.push('integer');
-    }
+//     // Check that it is an integer
+//     if (parseInt(str) != str) {
+//         //check if error array contains an error already
+//         if (errors[1] == ' a positive' && errors.length > 1) {
+//             errors.push(', ');
+//         }
+//         else {
+//             errors.push(' an ');
+//         }
+//         errors.push('integer');
+//     }
 
-    //add suffix to complete message
-    errors.push(' number!');
+//     //add suffix to complete message
+//     errors.push(' number!');
 
-    //return errors as the first index of errors.length
-    if (errors.length == 2) {
-        errors = [];
-    }
-    else {
-        errors = [errors.join('')];
-    }
-    return errlog ? errors : (errors.length == 0);
-}
+//     //return errors as the first index of errors.length
+//     if (errors.length == 2) {
+//         errors = [];
+//     }
+//     else {
+//         errors = [errors.join('')];
+//     }
+//     return errlog ? errors : (errors.length == 0);
+// }
