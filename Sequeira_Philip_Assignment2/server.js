@@ -328,8 +328,6 @@ function get_user_name() {
 function process_reg(req, res) {
     const POST = req.body;
 
-    console.log('REG TEST, POST: ', POST);
-
     //setup error collector
     let errors = [];
 
@@ -377,12 +375,6 @@ function process_reg(req, res) {
     //standardize stored usernames to be all lowercase
     req_user.username = req_user.username.toLowerCase();
 
-    console.log('REG TEST 2, username: ', typeof req_user.username);
-
-
-    console.log('REG TEST 2, database username: ', typeof users_reg_data[req_user.username]);
-
-
     //check if username is available
     if (typeof users_reg_data[req_user.username] != 'undefined'){
         errors.push('Username taken');
@@ -408,8 +400,6 @@ function process_reg(req, res) {
         users_reg_data[username].fullname = req_user.fullname;
         users_reg_data[username].email = req_user.email;
         let new_user_data = JSON.stringify(users_reg_data)
-
-        console.log('REG TEST 3, new user data: ', new_user_data);
 
         //write users_req_data to user data file
         try{
