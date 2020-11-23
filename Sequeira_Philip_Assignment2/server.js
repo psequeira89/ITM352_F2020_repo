@@ -1,4 +1,6 @@
 /*
+//this branch changes the top level organization for the  
+
 Assignment 2 for ITM 352
 
 Author: Philip Sequeira (paseque@hawaii.edu)
@@ -35,19 +37,17 @@ let validator = {
 
 app.use(myParser.urlencoded({ extended: true }));
 
-//set array of active users, index 0 is a 'guest' user for users not logged in
-let active_users = [
-    {
-        "username": "guest",
+//Tracks active users with an object
+let active_users = {
+    "guest": {
         "password": "",
         "fullname": "Guest",
         "email": "",
-        "hold_order": { "quantity_textbox_0": -1 }
     }
-];
+};
 
-//stores the currently selected user index, initializes to 0 (not logged in)
-let current_user = 0;
+//stores the current user, defaults to guest
+let current_user = "guest";
 
 //checks if user data file exists and parses to JSON
 if (fs.existsSync(user_data_filename)) {
@@ -85,45 +85,36 @@ function get_timestamp() {
 }
 
 //checks if input is non-negative integer
-//returns a string message in the first element of an array if error found by building the message
+//returns a string message in the first element of an array if error found
 function isStrNonNegInt(str, errlog = false) {
     let errors = []; // assume no errors at first
-    errors.push('Please enter'); //the first item in the array is the message prefix
+    let msg = {}; //set error messages
+    msg.notNum = 'Please enter a number!';
+    msg.notPos = 'Please enter a positive number!';
+    msg.notInt = 'Please enter an integer!';
+    msg.notPosInt = 'Please enter a positive integer!';
 
     // Check if string is a number value
     if (Number(str) != str) {
-        errors.push(' a number!');
-        errors = [errors.join('')];
+        errors.push(msg.notNum);
         return errlog ? errors : false;
     }
 
-    // Check if it is non-negative
-    if (str < 0) {
-        errors.push(' a positive');
-    }
+    // Check if it is negative
+    if (str < 0) errors.push(msg.notPos);
 
     // Check that it is an integer
     if (parseInt(str) != str) {
-        //check if error array contains an error already
-        if (errors[1] == ' a positive' && errors.length > 1) {
-            errors.push(', ');
+        //check if error is already non-negative
+        if (errors.length > 0) {
+            //replace notPos with notPostInt
+            errors=[msg.notPosInt];
         }
         else {
-            errors.push(' an ');
+            errors.push(msg.notInt);
         }
-        errors.push('integer');
     }
 
-    //add suffix to complete message
-    errors.push(' number!');
-
-    //return errors as the first index of errors.length
-    if (errors.length == 2) {
-        errors = [];
-    }
-    else {
-        errors = [errors.join('')];
-    }
     return errlog ? errors : (errors.length == 0);
 }
 
@@ -170,7 +161,6 @@ function calculate_tax(tr, subtotal) {
 //process the checkout and return receipt page
 function process_quantity_form(POST, res) {
     let contents = fs.readFileSync('./views/display_receipt.template', 'utf8');
-
     res.send(eval('`' + contents + '`')); // render template string
 
     //display table rows
@@ -213,8 +203,8 @@ function process_quantity_form(POST, res) {
         // Compute grand total
         total = subtotal + tax + shipping;
 
-        //reset the global temp order
-        hold_order = {};
+        //clears current user's hold_order
+        delete active_users[current_user].hold_order;
 
         return str;
     }
@@ -320,7 +310,7 @@ function load_top_right() {
     let str = '';
 
     //if not logged in, show link to login link in 
-    if (active_users.length === 1) {
+    if (current_user === "guest") {
         str += "<a href='/login' style='text-decoration: none;font-size:0.8em'><em>Login</em></a>";
         return str;
     } else {
@@ -331,12 +321,14 @@ function load_top_right() {
 
 //returns user's name
 function get_user_name() {
-    return active_users[current_user]['fullname'];
+    return active_users[current_user].fullname;
 }
 
 //process registration
 function process_reg(req, res) {
     const POST = req.body;
+
+    console.log('REG TEST, POST: ', POST);
 
     //setup error collector
     let errors = [];
@@ -345,7 +337,6 @@ function process_reg(req, res) {
     let req_user = {};
     req_user.username = POST['reg_username'];
     req_user.password = POST['reg_password'];
-    req_user.password2 = POST['reg_repeat_password'];
     req_user.fullname = POST['reg_fullname'];
     req_user.email = POST['reg_email'];
 
@@ -379,19 +370,25 @@ function process_reg(req, res) {
     }
 
     //check if passwords match
-    if (req_user.password != req_user.password2) {
+    if (req_user.password != POST['reg_repeat_password']) {
         errors.push('Passwords do not match');
     }
 
+    //standardize stored usernames to be all lowercase
+    req_user.username = req_user.username.toLowerCase();
+
+    console.log('REG TEST 2, username: ', typeof req_user.username);
+
+
+    console.log('REG TEST 2, database username: ', typeof users_reg_data[req_user.username]);
+
+
     //check if username is available
-    //iterates through user_data.json and checks req username for availability    
-    for (user in users_reg_data) {
-        if (users_reg_data[user]['username'].toLowerCase() === (req_user.username.toLowerCase())) {
-            errors.push('Username taken');
-            break;
-        }
+    if (typeof users_reg_data[req_user.username] != 'undefined'){
+        errors.push('Username taken');
     }
 
+    //process errors if any found
     if (errors.length > 0) {
         process_error(req, res, errors);
     }
@@ -399,12 +396,27 @@ function process_reg(req, res) {
     //if successful, add data and return to login
     else {
 
-        //get rid of redundant password
-        delete req_user.password2;
+        //save username
+        let username  = req_user.username;
 
-        users_reg_data.push(req_user);
+        //remove redundante username from req_user
+        delete req_user.username;
 
-        fs.writeFileSync(user_data_filename, JSON.stringify(users_reg_data));
+        //add req user to users_reg_data
+        users_reg_data[username] = {};
+        users_reg_data[username].password = req_user.password;
+        users_reg_data[username].fullname = req_user.fullname;
+        users_reg_data[username].email = req_user.email;
+        let new_user_data = JSON.stringify(users_reg_data)
+
+        console.log('REG TEST 3, new user data: ', new_user_data);
+
+        //write users_req_data to user data file
+        try{
+            fs.writeFileSync(user_data_filename, new_user_data, 'utf-8');
+        } catch (e){
+            console.log('some kind of write error', e);
+        }
 
         // set display registration success message flag to true
         newReg = true;
@@ -432,63 +444,43 @@ function process_login(req, res) {
 
     //store requested username and password to local object
     let req_user = {};
-    req_user.username = POST['login_username'];
+    req_user.username = POST['login_username'].toLowerCase();
     req_user.password = POST['login_password'];
 
-    //iterates through user_data.json and checks req username/password 
-    for (user in users_reg_data) {
+    //checks username and password
+    //check if user exists
+    if (typeof users_reg_data[req_user.username] != 'undefined'){
+        bad_username = false;
 
-        if (users_reg_data[user]['username'].toLowerCase() === (req_user.username.toLowerCase())) {
-            bad_username = false;
-
-            //if the user matches then check the password
-            if (users_reg_data[user].password == req_user.password) {
-                bad_password = false;
-
-                //store the found user index
-                this_user = user;
-            }
-            break;
+        //check if password matches user
+        if (typeof users_reg_data[req_user.username].password != 'undefined'){
+            bad_password = false;
         }
     }
 
-    if (bad_username === true) {
-        errors.push('Username not found');
-    }
-
-    if (bad_password === true) {
-        errors.push('Password is invalid');
-    }
+    //push errors to errors array
+    if (bad_username === true) errors.push('Username not found');
+    if (bad_password === true) errors.push('Password is invalid');
 
     //if both the username and password are ok, login
     if (errors.length === 0) {
 
+        //set flag to show receipt after login
         let redirect_to_receipt = false;
 
         //check if guest and there is an order pending
-        if (current_user === 0 && active_users[current_user].hold_order.quantity_textbox_0 != -1) {
+        if (current_user === "guest" && typeof active_users[current_user].hold_order != 'undefined') {
             redirect_to_receipt = true;
         }
 
-        //logs out current user
-        update_current_user_index(false);
-
-        //add the current user to the pool of currently logged in users
-        active_users.push(users_reg_data[this_user]);
-        console.log(`User: ${users_reg_data[this_user].username} has logged in.`);
-
-        //set the current user index for a login
-        update_current_user_index(true);
+        //logs in user, makes req_user.username the current user
+        login_user(req_user.username);
 
         //if user is logging in with a purchase pending, process the order
-        if (redirect_to_receipt) {
-            process_quantity_form(active_users[current_user].hold_order, res);
-        }
-
+        if (redirect_to_receipt) process_quantity_form(active_users[current_user].hold_order, res);
+        
         //if user is logging in without a purchase pending, take them to the store
-        else {
-            res.redirect('/products');
-        }
+        else res.redirect('/products');
     }
 
     //if username or password is not correct, respond with errora
@@ -497,39 +489,47 @@ function process_login(req, res) {
     }
 }
 
-//updates the current_user index
-//if login is true, processes a login, else a logout
-function update_current_user_index(login) {
+//logs in user
+function login_user(login_user){
 
-    //true indicates a login, false, logout
-    if (login) {
+    //adds new user to active_users
+    active_users[login_user] = users_reg_data[login_user];   
 
-        //transfers any held orders to new login
-        let temp_order = {};
+    //transfers any held orders to new login
+    let temp_order = {};
+    if (typeof active_users[current_user].hold_order != 'undefined'){
+        //store guest hold order
         temp_order = active_users[current_user].hold_order;
 
-        //remove hold order from logged out user if not guest
-        if (current_user != 0) {
-            delete active_users[current_user].hold_order;
-        }
+        //remove hold order from guest
+        delete active_users[current_user].hold_order;
 
-        //increments current user index
-        current_user++;
-
-        active_users[current_user].hold_order = temp_order;
-
-    } else {
-        let logout = {};
-
-        //logs out current user unless it is the default user
-        if (active_users.length > 1) {
-            logout = active_users.pop();
-            console.log(`User: ${logout.username} has logged out`);
-            current_user--;
-        } else {
-            console.log("Tried to log out, but no users logged in");
-        }
+        //give hold order to new user
+        active_users[login_user].hold_order = temp_order;
     }
+
+    //if logged in as user other than guest, auto-logout
+    if (current_user != "guest") logout_user(current_user);
+
+    //updates current user
+    current_user = login_user;
+    console.log(`${get_timestamp()}: User '${current_user}' has logged in.`);
+}
+
+//logs out user
+function logout_user(logout_user){
+        //logs out current user unless it is the guest user
+        if (current_user != "guest") {
+
+            //remove from active users
+            delete active_users[logout_user];
+
+            //report logout
+            console.log(`${get_timestamp()}: User '${logout_user}' has logged out`);
+
+            //change current user back to guest
+            current_user = "guest";
+        } else console.log(`${get_timestamp()}: Tried to log out, but not logged in`);
 }
 
 //validate checkout form and either process or redirect to login
@@ -549,7 +549,7 @@ function validate_checkout_form(req, res) {
         if (product != `quantity_textbox_${i}`) break;
 
         //check how many entries are empty or 0, if it is all, reject
-        if (qty == '' || qty <= 0) blanks++;
+        if (qty == '' || qty == 0) blanks++;
         if (blanks == products.length) error.push("There is nothing in your cart!");
 
         //check if value is valid or empty
@@ -568,8 +568,8 @@ function validate_checkout_form(req, res) {
     //check if logged in, then process accordingly
     else {
 
-        //if not logged in, save the current order to global temp object
-        if (current_user === 0) {
+        //if not logged in, save the current order to guest's hold order
+        if (current_user === "guest") {
             active_users[current_user].hold_order = POST;
 
             //ask to login
