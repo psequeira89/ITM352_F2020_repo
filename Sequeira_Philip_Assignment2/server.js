@@ -1,6 +1,4 @@
 /*
-//this branch changes the top level organization for the  
-
 Assignment 2 for ITM 352
 
 Author: Philip Sequeira (paseque@hawaii.edu)
@@ -108,7 +106,7 @@ function isStrNonNegInt(str, errlog = false) {
         //check if error is already non-negative
         if (errors.length > 0) {
             //replace notPos with notPostInt
-            errors=[msg.notPosInt];
+            errors = [msg.notPosInt];
         }
         else {
             errors.push(msg.notInt);
@@ -328,8 +326,6 @@ function get_user_name() {
 function process_reg(req, res) {
     const POST = req.body;
 
-    console.log('REG TEST, POST: ', POST);
-
     //setup error collector
     let errors = [];
 
@@ -377,14 +373,8 @@ function process_reg(req, res) {
     //standardize stored usernames to be all lowercase
     req_user.username = req_user.username.toLowerCase();
 
-    console.log('REG TEST 2, username: ', typeof req_user.username);
-
-
-    console.log('REG TEST 2, database username: ', typeof users_reg_data[req_user.username]);
-
-
     //check if username is available
-    if (typeof users_reg_data[req_user.username] != 'undefined'){
+    if (typeof users_reg_data[req_user.username] != 'undefined') {
         errors.push('Username taken');
     }
 
@@ -397,7 +387,7 @@ function process_reg(req, res) {
     else {
 
         //save username
-        let username  = req_user.username;
+        let username = req_user.username;
 
         //remove redundante username from req_user
         delete req_user.username;
@@ -409,12 +399,10 @@ function process_reg(req, res) {
         users_reg_data[username].email = req_user.email;
         let new_user_data = JSON.stringify(users_reg_data)
 
-        console.log('REG TEST 3, new user data: ', new_user_data);
-
         //write users_req_data to user data file
-        try{
+        try {
             fs.writeFileSync(user_data_filename, new_user_data, 'utf-8');
-        } catch (e){
+        } catch (e) {
             console.log('some kind of write error', e);
         }
 
@@ -449,11 +437,11 @@ function process_login(req, res) {
 
     //checks username and password
     //check if user exists
-    if (typeof users_reg_data[req_user.username] != 'undefined'){
+    if (typeof users_reg_data[req_user.username] != 'undefined') {
         bad_username = false;
 
         //check if password matches user
-        if (typeof users_reg_data[req_user.username].password != 'undefined'){
+        if (typeof users_reg_data[req_user.username].password != 'undefined') {
             bad_password = false;
         }
     }
@@ -478,7 +466,7 @@ function process_login(req, res) {
 
         //if user is logging in with a purchase pending, process the order
         if (redirect_to_receipt) process_quantity_form(active_users[current_user].hold_order, res);
-        
+
         //if user is logging in without a purchase pending, take them to the store
         else res.redirect('/products');
     }
@@ -490,14 +478,14 @@ function process_login(req, res) {
 }
 
 //logs in user
-function login_user(login_user){
+function login_user(login_user) {
 
     //adds new user to active_users
-    active_users[login_user] = users_reg_data[login_user];   
+    active_users[login_user] = users_reg_data[login_user];
 
     //transfers any held orders to new login
     let temp_order = {};
-    if (typeof active_users[current_user].hold_order != 'undefined'){
+    if (typeof active_users[current_user].hold_order != 'undefined') {
         //store guest hold order
         temp_order = active_users[current_user].hold_order;
 
@@ -517,19 +505,19 @@ function login_user(login_user){
 }
 
 //logs out user
-function logout_user(logout_user){
-        //logs out current user unless it is the guest user
-        if (current_user != "guest") {
+function logout_user(logout_user) {
+    //logs out current user unless it is the guest user
+    if (current_user != "guest") {
 
-            //remove from active users
-            delete active_users[logout_user];
+        //remove from active users
+        delete active_users[logout_user];
 
-            //report logout
-            console.log(`${get_timestamp()}: User '${logout_user}' has logged out`);
+        //report logout
+        console.log(`${get_timestamp()}: User '${logout_user}' has logged out`);
 
-            //change current user back to guest
-            current_user = "guest";
-        } else console.log(`${get_timestamp()}: Tried to log out, but not logged in`);
+        //change current user back to guest
+        current_user = "guest";
+    } else console.log(`${get_timestamp()}: Tried to log out, but not logged in`);
 }
 
 //validate checkout form and either process or redirect to login
