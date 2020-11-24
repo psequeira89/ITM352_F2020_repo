@@ -1,0 +1,272 @@
+<!-- w3 Schools template used
+from: https://www.w3schools.com/w3css/tryit.asp?filename=tryw3css_templates_food_blog&stacked=h -->
+
+<!-- 
+Assignment 2 for ITM 352
+
+Author: Philip Sequeira (paseque@hawaii.edu)
+Date: November 2020
+Filename: login.template
+Description: 
+    'login.template' is the template file to display the login and registration page for the store 'CPU City'.
+    Both the login and registration are handled on the same page through by swapping hidden forms
+-->
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Login</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Karma">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="styles/style.css">
+</head>
+
+<body>
+    <!-- Sidebar (hidden by default) -->
+    <nav class="w3-sidebar w3-bar-block w3-card w3-top w3-xlarge w3-animate-left"
+        style="display:none;z-index:2;width:40%;min-width:300px" id="mySidebar">
+        <a href="javascript:void(0)" onclick="w3_close()" class="w3-bar-item w3-button fa fa-close"></a>
+        <a href="./products" onclick="w3_close()" class="w3-bar-item w3-button"> Store</a>
+        <a href="#shipping" onclick="w3_close()" class="w3-bar-item w3-button fa fa-truck"> Shipping Policy</a>
+        <a href="/" onclick="w3_close()" class="w3-bar-item w3-button fa fa-home"> Return to Main Page</a>
+    </nav>
+
+    <!-- Top menu -->
+    <div class="w3-top">
+        <div class="w3-white w3-xlarge" style="max-width:1200px;margin:auto">
+            <div class="w3-button w3-padding-16 w3-left" onclick="w3_open()">☰</div>
+            <div class="w3-center w3-padding-16"><a href="/products" style="text-decoration: none">CPU City</a></div>
+        </div>
+    </div>
+    <div class="w3-main w3-content w3-padding" style="max-width:1200px;margin-top:100px">
+
+        <!-- New registration welcome modal -->
+        ${display_new_reg_welcome()}
+
+        <!-- displays error screen -->
+        ${report_error()}
+
+        <main class="w3-container" style="margin:10em 0 100px">
+
+            <!-- Form to submit login -->
+            <div id="login" class="w3-card-4" style="max-width:900px;margin:auto">
+                <div class="w3-container w3-blue">
+                    <h2>Login</h2>
+                </div>
+                <br>
+
+                <form action="/process_login" method="POST" class="w3-container" name="login-form" id="login-form">
+                    <label for="login_username">Username:</label>
+                    <input type="text" pattern="[a-zA-Z0-9]{4,10}" title="Usernames must be 4-10 characters, numbers/letters only" class="w3-input" name="login_username" placeholder="enter username" id="login_username" autocomplete="off"
+                        required><br>
+
+                    <label for="login_password">Password:</label>
+                    <input type="password" pattern=".{6,}" title="Passwords must be at least 6 characters, case sensitive" class="w3-input" name="login_password" placeholder="enter password" required><br>
+
+                    <div class="w3-row-padding">
+                        <div class="w3-half">
+                            <input type="submit" class="w3-input w3-btn w3-white w3-hover-blue w3-border" value="Login">
+                        </div>
+                        <div class="w3-half">
+                            <button type="button" class="w3-input w3-btn w3-light-blue w3-hover-blue w3-border" onclick="document.getElementById('reg').style.display='block';
+                            document.getElementById('login').style.display='none';">Create an Account</button>
+                        </div>
+                    </div>
+                    <br>
+                </form>
+            </div>
+
+            <!-- Form to submit registration -->
+            <div id="reg" class="w3-card-4" style="max-width:900px;margin:auto;display:none">
+                <div class="w3-container w3-blue">
+                    <h2>Create Your Account</h2>
+                </div>
+                <br>
+                <form action="/process_reg" method="POST" class="w3-container" id="reg-form">
+
+                    <!-- full name: <= 30 chars, only letters -->
+                    <label for="reg_fullname">Full Name:</label>
+                    <input type="text" pattern="[a-zA-Z\ ]{1,30}" title="Up to 30 characters, letters only" class="w3-input" id="reg_fullname" name="reg_fullname" placeholder="enter your full name"
+                        autocomplete="off" required><br>
+
+                    <!-- username: 4-10 characters, only letters and numbers, case insensitive, must be unique -->
+                    <label for="reg_username">Username:</label>
+                    <input type="text" pattern="[a-zA-Z0-9]{4,10}" title="Usernames must be 4-10 characters, numbers/letters only" class="w3-input" name="reg_username" placeholder="enter username" id="reg_username" autocomplete="off"
+                        required><br>
+
+                    <!-- password: >= 6 chars, all chars valid, case sensitive -->
+                    <label for="reg_password">Password:</label>
+                    <input type="password" pattern=".{6,}" title="Passwords must be at least 6 characters, case sensitive" class="w3-input" name="reg_password" placeholder="enter password" required><br>
+
+                    <label for="reg_repeat_password">Enter Password Again:</label>
+                    <input type="password" pattern=".{6,}" title="Passwords must be at least 6 characters, case sensitive" class="w3-input" name="reg_repeat_password" placeholder="enter password again"
+                        required><br>
+
+                    <!-- email address: format is x@y.z, case sensitive
+                        x: only letters, numbers and '_' and '.'
+                        y: only letters, numbers, and '.'
+                        z: 2-3 letters -->
+                    <label for="reg_email">Email:</label>
+                    <input type="email" pattern="^[a-zA-Z0-9._]+@[a-zA-Z0-9.]+\.[a-zA-Z]{2,3}$" title="Please enter valid email address" class="w3-input" name="reg_email" id="reg_email" placeholder="enter email" autocomplete="off"
+                        required><br>
+
+                    <div class="w3-row-padding">
+                        <div class="w3-half">
+                            <input type="submit" class="w3-input w3-btn w3-light-blue w3-hover-blue w3-border"
+                                value="Submit">
+                        </div>
+                        <div class="w3-half">
+                            <button type="button" class="w3-input w3-btn w3-white w3-hover-blue  w3-border" onclick="document.getElementById('login').style.display='block';
+                            document.getElementById('reg').style.display='none';">Back to Login</button>
+                        </div>
+                    </div>
+                    <br>
+                </form>
+            </div>
+
+        </main>
+
+        <hr>
+
+        <!-- Footer -->
+        <footer class="w3-row-padding w3-padding-32">
+            <div class="w3-third">
+                <h3 id="shipping">SHIPPING POLICY</h3>
+                ${load_shipping_statement()}
+                <p>Powered by <a href="https://www.w3schools.com/w3css/default.asp" target="_blank"
+                        style="text-decoration: none">w3.css</a></p>
+            </div>
+
+            <div class="w3-third">
+                <h3>BLOG POSTS</h3>
+                <ul class="w3-ul w3-hoverable">
+                    <li class="w3-padding-16">
+                        <a href="https://psequeira89.github.io/essays/Introduction.html" target="_blank">
+                            <img src="https://icdn2.digitaltrends.com/image/amd-ryzen-7-1700-cpu-inhand1-2-1500x1000.jpg"
+                                class="w3-left w3-margin-right" style="width:50px">
+                            <span class="w3-large">Introduction</span><br>
+                            <span>The man behind the city</span>
+                        </a>
+                    </li>
+                    <li class="w3-padding-16">
+                        <a href="https://psequeira89.github.io/essays/E1_ui_basics.html" target="_blank">
+                            <img src="https://www.routerloginsupport.com/wp-content/uploads/2018/04/rayzen.jpg"
+                                class="w3-left w3-margin-right" style="width:50px">
+                            <span class="w3-large">UI Technical Essay</span><br>
+                            <span>The early days</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="w3-third w3-serif">
+                <h3>POPULAR TAGS</h3>
+                <p>
+                    <span class="w3-tag w3-black w3-margin-bottom">CPU</span> <span
+                        class="w3-tag w3-dark-grey w3-small w3-margin-bottom">AMD</span> <span
+                        class="w3-tag w3-dark-grey w3-small w3-margin-bottom">Ryzen</span>
+                    <span class="w3-tag w3-dark-grey w3-small w3-margin-bottom">Intel</span> <span
+                        class="w3-tag w3-dark-grey w3-small w3-margin-bottom">Computer</span> <span
+                        class="w3-tag w3-dark-grey w3-small w3-margin-bottom">PC</span>
+                    <span class="w3-tag w3-dark-grey w3-small w3-margin-bottom">Electronics</span> <span
+                        class="w3-tag w3-dark-grey w3-small w3-margin-bottom">Do-it-yourself</span> <span
+                        class="w3-tag w3-dark-grey w3-small w3-margin-bottom">Buy</span>
+                    <span class="w3-tag w3-dark-grey w3-small w3-margin-bottom">Shop</span> <span
+                        class="w3-tag w3-dark-grey w3-small w3-margin-bottom">CPU City</span> <span
+                        class="w3-tag w3-dark-grey w3-small w3-margin-bottom">New</span>
+                    <span class="w3-tag w3-dark-grey w3-small w3-margin-bottom">Fast</span> <span
+                        class="w3-tag w3-dark-grey w3-small w3-margin-bottom">Best</span>
+                </p>
+            </div>
+        </footer>
+
+    </div>
+
+    <script>
+        //use localStorage to save last login username
+        let login_form = document.getElementById("login-form");
+        let reg_form = document.getElementById("reg-form");
+
+        //event listeners for submission
+        login_form.addEventListener('submit', saveLogin);
+        reg_form.addEventListener('submit', saveReg);
+
+        //load sticky data
+        window.onload = loadSticky();
+
+        //saves username from login attempts
+        function saveLogin(event){
+            //collect username from form submission event
+            let username = document.getElementById('login_username').value;
+
+            //set the local storage item
+            localStorage.setItem('login_username', username);
+        }
+
+        //saves form data from registration attemps
+        function saveReg(event){
+            //collect data from form submission event
+            let data = [];
+
+            let username = document.getElementById('reg_username').value;
+            let fullname = document.getElementById('reg_fullname').value;
+            let email = document.getElementById('reg_email').value;
+
+            //set the local storage item
+            localStorage.setItem('reg_username', username);
+            localStorage.setItem('reg_fullname', fullname);
+            localStorage.setItem('reg_email', email);
+        }
+
+        //loads in last entered values in forms except for passwords
+        function loadSticky(){
+            if (localStorage.getItem('login_username') !== null) document.getElementById('login_username').value = localStorage.getItem('login_username');
+            if (localStorage.getItem('reg_username') !== null) document.getElementById('reg_username').value = localStorage.getItem('reg_username');
+            if (localStorage.getItem('reg_fullname') !== null) document.getElementById('reg_fullname').value = localStorage.getItem('reg_fullname');
+            if (localStorage.getItem('reg_email') !== null) document.getElementById('reg_email').value = localStorage.getItem('reg_email');
+        }
+
+        // Script to open and close sidebar
+        function w3_open() {
+            document.getElementById("mySidebar").style.display = "block";
+        }
+        function w3_close() {
+            document.getElementById("mySidebar").style.display = "none";
+        }
+
+        //operates the modal for error
+        // Get the modal
+        let reg_modal = document.getElementById('reg-success');
+        let err_modal = document.getElementById('error');
+
+        function showModal(id) {
+            document.getElementById(id).style.display = 'block';
+        }
+
+        // When the user clicks anywhere outside of the modal, close it
+        window.onclick = function (event) {
+            if (event.target == reg_modal) reg_modal.style.display = "none";
+            if (event.target == err_modal) err_modal.style.display = "none";
+        }
+
+        //display regmodal as block onload if registration is successful
+        try {
+            window.onload = showModal("reg-success");
+        } catch {
+            //intentionally blank. catches TypeError if modals are not present on load
+        }
+
+        //display modal as block onload if error exists
+        try {
+            window.onload = showModal("error");
+        } catch {
+            //intentionally blank. catches TypeError if modals are not present on load
+        }
+    </script>
+</body>
+
+</html>

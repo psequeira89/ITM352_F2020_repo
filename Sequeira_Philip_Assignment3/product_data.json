@@ -1,0 +1,37 @@
+[
+    {
+        "model": "3600",
+        "range": "Ryzen 5",
+        "price": 199.99,
+        "image": "r5_3600.jpg",
+        "manufacturer": "AMD"
+    },
+    {
+        "model": "3600X",
+        "range": "Ryzen 5",
+        "price": 249.99,
+        "image": "r5_3600X.jpg",
+        "manufacturer": "AMD"
+    },
+    {
+        "model": "3700X",
+        "range": "Ryzen 7",
+        "price": 329.99,
+        "image": "r7_3700X.jpg",
+        "manufacturer": "AMD"
+    },
+    {
+        "model": "3800X",
+        "range": "Ryzen 7",
+        "price": 399.99,
+        "image": "r7_3800X.jpg",
+        "manufacturer": "AMD"
+    },
+    {
+        "model": "3900X",
+        "range": "Ryzen 9",
+        "price": 499.99,
+        "image": "r9_3900X.jpg",
+        "manufacturer": "AMD"
+    }
+]
