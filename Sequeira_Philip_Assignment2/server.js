@@ -386,6 +386,12 @@ function process_reg(req, res) {
     //if successful, add data and return to login
     else {
 
+        // set display registration success message flag to true
+        newReg = true;
+
+        //update temp fullname to be the newly registered user's name for greeting
+        newRegName = req_user.fullname;
+
         //save username
         let username = req_user.username;
 
@@ -393,24 +399,15 @@ function process_reg(req, res) {
         delete req_user.username;
 
         //add req user to users_reg_data
-        users_reg_data[username] = {};
-        users_reg_data[username].password = req_user.password;
-        users_reg_data[username].fullname = req_user.fullname;
-        users_reg_data[username].email = req_user.email;
-        let new_user_data = JSON.stringify(users_reg_data)
+        users_reg_data[username] = req_user;
+        data = JSON.stringify(users_reg_data)
 
         //write users_req_data to user data file
         try {
-            fs.writeFileSync(user_data_filename, new_user_data, 'utf-8');
+            fs.writeFileSync(user_data_filename, data, 'utf-8');
         } catch (e) {
             console.log('some kind of write error', e);
         }
-
-        // set display registration success message flag to true
-        newReg = true;
-
-        //update temp fullname to be the newly registered user's name for greeting
-        newRegName = req_user.fullname;
 
         res.redirect('/login');
     }
