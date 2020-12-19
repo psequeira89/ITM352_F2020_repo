@@ -120,7 +120,7 @@ Description:
                     to store page?</button></p>
         </a>
 
-            <a href="./send_email" style="text-decoration: none"><p><button class="w3-button w3-card-4 w3-block w3-blue w3-animate-top" style="padding: 1.5em; margin:2em auto">Send Confirmation Email?</button></p></a>
+            <a href="./send_email" style="text-decoration: none"><p><button class="w3-button w3-card-4 w3-block w3-green w3-animate-top" style="padding: 1.5em; margin:2em auto">Send Confirmation Email?</button></p></a>
     
         <br>
         <hr>

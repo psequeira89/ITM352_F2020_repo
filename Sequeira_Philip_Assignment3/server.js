@@ -464,7 +464,6 @@ function send_email_confirmation(req, res) {
     });
 }
 
-
 //processes product page requests
 function process_product_page(req, res) {
     let sess = req.session;
@@ -1051,6 +1050,18 @@ app.get('/menu', (req, res) => {
 });
 
 //send confirmation email
+app.get('/clear_cart', (req, res) => {
+    let sess = req.session;
+
+    if (typeof sess.cart !== 'undefined'){
+        delete sess.cart;
+    }
+
+    res.redirect('/menu');
+});
+
+
+//send confirmation email
 app.get('/send_email', (req, res) => {
     send_email_confirmation(req, res);
 });
@@ -1119,7 +1130,6 @@ app.get('/login', (req, res) => {
 
         return str;
     }
-
 
     //returns registration success message in a modal
     function display_new_reg_welcome() {
