@@ -1,8 +1,8 @@
 /*
-Assignment 2 for ITM 352
+Assignment 3 for ITM 352
 
 Author: Philip Sequeira (paseque@hawaii.edu)
-Date: November 2020
+Date: December 2020
 Filename: app.js
 Description: 
     'app.js' holds functions for displaying client-side error checking for the store 'CPU City'.

@@ -2,10 +2,10 @@
 from: https://www.w3schools.com/w3css/tryit.asp?filename=tryw3css_templates_food_blog&stacked=h -->
 
 <!-- 
-Assignment 2 for ITM 352
+Assignment 3 for ITM 352
 
 Author: Philip Sequeira (paseque@hawaii.edu)
-Date: November 2020
+Date: December 2020
 Filename: display_receipt.template
 Description: 
     'display_receipt.template' is the template file to display the invoice page for the store 'CPU City'.
@@ -30,7 +30,7 @@ Description:
     <nav class="w3-sidebar w3-bar-block w3-card w3-top w3-xlarge w3-animate-left"
         style="display:none;z-index:2;width:40%;min-width:300px" id="mySidebar">
         <a href="javascript:void(0)" onclick="w3_close()" class="w3-bar-item w3-button fa fa-close"></a>
-        <a href="./products" onclick="w3_close()" class="w3-bar-item w3-button"> Store</a>
+        <a href="./menu" onclick="w3_close()" class="w3-bar-item w3-button"> Store</a>
         <a href="#shipping" onclick="w3_close()" class="w3-bar-item w3-button fa fa-truck"> Shipping Policy</a>
         <a href="/" onclick="w3_close()" class="w3-bar-item w3-button fa fa-home"> Return to Main Page</a>
     </nav>
@@ -114,11 +114,14 @@ Description:
                 </tbody>
             </table>
         </main>
-
-        <a href="./products" style="text-decoration: none">
+        
+        <a href="./menu" style="text-decoration: none">
             <p><button class="w3-button w3-card-4 w3-block w3-blue w3-animate-top" style="padding: 1.5em; margin:2em auto">Return
                     to store page?</button></p>
         </a>
+
+            <a href="./send_email" style="text-decoration: none"><p><button class="w3-button w3-card-4 w3-block w3-blue w3-animate-top" style="padding: 1.5em; margin:2em auto">Send Confirmation Email?</button></p></a>
+    
         <br>
         <hr>
 

@@ -2,10 +2,10 @@
 from: https://www.w3schools.com/w3css/tryit.asp?filename=tryw3css_templates_food_blog&stacked=h -->
 
 <!-- 
-Assignment 2 for ITM 352
+Assignment 3 for ITM 352
 
 Author: Philip Sequeira (paseque@hawaii.edu)
-Date: November 2020
+Date: December 2020
 Filename: product_page.template
 Description: 
     'product_page.template' is the template file to display the product page for the store 'CPU City'.
@@ -28,8 +28,9 @@ Description:
     <nav class="w3-sidebar w3-bar-block w3-card w3-top w3-xlarge w3-animate-left"
         style="display:none;z-index:2;width:40%;min-width:300px" id="mySidebar">
         <a href="javascript:void(0)" onclick="w3_close()" class="w3-bar-item w3-button fa fa-close"></a>
-        <a href="/login" onclick="w3_close()" class="w3-bar-item w3-button"> Login/Register</a>
-        <a href="#cpus" onclick="w3_close()" class="w3-bar-item w3-button"> CPUs</a>
+        ${load_logout_button()}
+        <a href="./menu" onclick="w3_close()" class="w3-bar-item w3-button"> Store</a>
+        ${load_cart_button()}
         <a href="#shipping" onclick="w3_close()" class="w3-bar-item w3-button fa fa-truck"> Shipping Policy</a>
         <a href="/" onclick="w3_close()" class="w3-bar-item w3-button fa fa-home"> Return to Main Page</a>
     </nav>
@@ -65,8 +66,8 @@ Description:
         <form id="quantity_form" name="quantity_form" method="POST" action="/process_form">
             <div class="w3-container w3-card-4 w3-animate-top">
                 <br>
-                <div class="w3-container w3-center" id="cpus">
-                    <h2>CPUs</h2>
+                <div class="w3-container w3-center">
+                    <h2>${man} ${gen} CPUs</h2>
                     <hr>
                 </div>
                 <!-- Product Grids-->
@@ -75,7 +76,7 @@ Description:
 
             <!-- Submit -->
             <div class="w3-container w3-animate-top">
-                <input type="submit" name="checkout" value="Checkout" class="w3-bar-item w3-blue w3-button w3-block" style="margin:1em 0 2em">
+                <input type="submit" name="add" value="Add to Cart" class="w3-bar-item w3-blue w3-button w3-block" style="margin:1em 0 2em">
             </div>
         </div>
         </form>

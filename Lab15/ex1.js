@@ -47,7 +47,6 @@ function process_login(req, res) {
     //get strings of usernames
     let usernames = Object.keys(users_reg_data);
 
-
     //iterates through user_data.json and checks req username/password 
     usernames.forEach((user, index) => {
         if (user == req_user.username){
@@ -145,7 +144,6 @@ function process_registration(req, res){
     }
 }
 
-
 app.get("/set_cookie", function (request, response) {
     response.cookie('name', 'Phil').send("cookie set!");
 });
@@ -200,6 +198,5 @@ app.get("/register", function (request, response) {
     // process a simple register form
     process_registration(request, response);
  });
-
 
 app.listen(8080, () => console.log(`listening on port 8080`));

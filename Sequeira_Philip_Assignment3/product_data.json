@@ -1,37 +1,167 @@
-[
-    {
-        "model": "3600",
-        "range": "Ryzen 5",
-        "price": 199.99,
-        "image": "r5_3600.jpg",
-        "manufacturer": "AMD"
+{
+    "AMD": {
+        "Zen 2": [
+            {
+                "model": "3600",
+                "range": "Ryzen 5",
+                "price": 199.99,
+                "image": "r5_3600.jpg",
+                "socket": "AM4",
+                "TDP": 65,
+                "inventory": 100
+            },
+            {
+                "model": "3600X",
+                "range": "Ryzen 5",
+                "price": 249.99,
+                "image": "r5_3600X.jpg",
+                "socket": "AM4",
+                "TDP": 95,
+                "inventory": 100
+            },
+            {
+                "model": "3700X",
+                "range": "Ryzen 7",
+                "price": 329.99,
+                "image": "r7_3700X.jpg",
+                "socket": "AM4",
+                "TDP": 65,
+                "inventory": 100
+            },
+            {
+                "model": "3800X",
+                "range": "Ryzen 7",
+                "price": 399.99,
+                "image": "r7_3800X.jpg",
+                "socket": "AM4",
+                "TDP": 105,
+                "inventory": 100
+            },
+            {
+                "model": "3900X",
+                "range": "Ryzen 9",
+                "price": 499.99,
+                "image": "r9_3900X.jpg",
+                "socket": "AM4",
+                "TDP": 105,
+                "inventory": 100
+            }
+        ],
+        "Zen 3": [
+            {
+                "model": "5600X",
+                "range": "Ryzen 5",
+                "price": 299.99,
+                "image": "r5_5600X.jpg",
+                "socket": "AM4",
+                "TDP": 65,
+                "inventory": 100
+            },
+            {
+                "model": "5800X",
+                "range": "Ryzen 7",
+                "price": 449.99,
+                "image": "r7_5800X.jpg",
+                "socket": "AM4",
+                "TDP": 105,
+                "inventory": 100
+            },
+            {
+                "model": "5900X",
+                "range": "Ryzen 9",
+                "price": 549.99,
+                "image": "r9_5900X.jpg",
+                "socket": "AM4",
+                "TDP": 105,
+                "inventory": 100
+            },
+            {
+                "model": "5950X",
+                "range": "Ryzen 9",
+                "price": 799.99,
+                "image": "r9_5950X.jpg",
+                "socket": "AM4",
+                "TDP": 105,
+                "inventory": 100
+            }
+        ]
     },
-    {
-        "model": "3600X",
-        "range": "Ryzen 5",
-        "price": 249.99,
-        "image": "r5_3600X.jpg",
-        "manufacturer": "AMD"
-    },
-    {
-        "model": "3700X",
-        "range": "Ryzen 7",
-        "price": 329.99,
-        "image": "r7_3700X.jpg",
-        "manufacturer": "AMD"
-    },
-    {
-        "model": "3800X",
-        "range": "Ryzen 7",
-        "price": 399.99,
-        "image": "r7_3800X.jpg",
-        "manufacturer": "AMD"
-    },
-    {
-        "model": "3900X",
-        "range": "Ryzen 9",
-        "price": 499.99,
-        "image": "r9_3900X.jpg",
-        "manufacturer": "AMD"
+    "Intel": {
+        "9th generation": [
+            {
+                "model": "9100F",
+                "range": "i3",
+                "price": 88.99,
+                "image": "i3_9100F.jpg",
+                "socket": "LGA 1151",
+                "TDP": 65,
+                "inventory": 100
+            },
+            {
+                "model": "9600K",
+                "range": "i5",
+                "price": 263.99,
+                "image": "i5_9600K.jpg",
+                "socket": "LGA 1151",
+                "TDP": 95,
+                "inventory": 100
+            },
+            {
+                "model": "9700K",
+                "range": "i7",
+                "price": 385.99,
+                "image": "i7_9700K.jpg",
+                "socket": "LGA 1151",
+                "TDP": 95,
+                "inventory": 100
+            },
+            {
+                "model": "9900K",
+                "range": "i9",
+                "price": 499.99,
+                "image": "i9_9900K.jpg",
+                "socket": "LGA 1151",
+                "TDP": 105,
+                "inventory": 100
+            }
+        ],
+        "10th generation": [
+            {
+                "model": "10100",
+                "range": "i3",
+                "price": 122.99,
+                "image": "i3_10100.jpg",
+                "socket": "LGA 1200",
+                "TDP": 65,
+                "inventory": 100
+            },
+            {
+                "model": "10400",
+                "range": "i5",
+                "price": 182.99,
+                "image": "i5_10400.jpg",
+                "socket": "LGA 1200",
+                "TDP": 65,
+                "inventory": 100
+            },
+            {
+                "model": "10700K",
+                "range": "i7",
+                "price": 374.99,
+                "image": "i7_10700K.jpg",
+                "socket": "LGA 1200",
+                "TDP": 125,
+                "inventory": 100
+            },
+            {
+                "model": "10900KF",
+                "range": "i9",
+                "price": 463.99,
+                "image": "i9_10900KF.jpg",
+                "socket": "LGA 1200",
+                "TDP": 125,
+                "inventory": 100
+            }
+        ]
     }
-]
+}

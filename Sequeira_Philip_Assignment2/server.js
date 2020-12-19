@@ -15,7 +15,7 @@ let products = require('./product_data.json');
 let user_data_filename = 'user_data.json';
 let users_reg_data = {};
 let app = express();
-const PORT = 8080;
+const PORT = 3000;
 let date_ob = new Date();
 
 //for presenting welcome on successful registration

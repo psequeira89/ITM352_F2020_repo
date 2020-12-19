@@ -1,7 +1,7 @@
 {
     "itm352": {
-        "password": "grader",
         "fullname": "Grader",
-        "email": "itm352@hawaii.edu"
+        "email": "itm352@hawaii.edu",
+        "password": "grader"
     }
 }
