@@ -1,1 +1,7 @@
-{"itm352":{"fullname":"Grader","email":"itm352@hawaii.edu","password":"grader"},"paseque":{"password":"password","fullname":"Philip Sequeira","email":"paseque@hawaii.edu"}}
+{
+    "itm352": {
+        "fullname": "Grader",
+        "email": "itm352@hawaii.edu",
+        "password": "grader"
+    }
+}
